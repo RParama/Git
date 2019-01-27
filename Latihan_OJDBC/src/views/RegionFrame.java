@@ -59,19 +59,6 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         btn_update.setText("Update");
     }
 
-    public void select() {
-        int i = regTable.getSelectedRow();
-        System.out.println("" + i);
-        if (i == -1) {
-            return;
-        }
-        Integer id = (Integer) model.getValueAt(i, 0);
-        String name = (String) model.getValueAt(i, 1);
-
-        tf_id.setText(String.valueOf(id));
-        tf_nama.setText(String.valueOf(name));
-        btn_update.setText("Update");
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
