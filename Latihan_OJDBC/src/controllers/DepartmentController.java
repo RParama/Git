@@ -25,6 +25,21 @@ public class DepartmentController {
         ddao = new DepartmentDAO(connection);
     }
 
+    public List<String> getDepList() {
+        List<String> depList = new ArrayList<String>();
+        boolean result = false;
+        try {
+            for (Department department : ddao.getData("", false)) {
+                depList.add(department.getDepartmentName());
+            }
+
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return depList;
+    }
+
     public List<Department> getDataById(String id) {
         List<Department> departments = new ArrayList<Department>();
         try {

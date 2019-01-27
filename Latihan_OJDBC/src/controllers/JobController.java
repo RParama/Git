@@ -24,7 +24,23 @@ public class JobController {
     public JobController(Connection connection) {
         jdao = new JobDAO(connection);
     }
+    
+    public List<String> getJobs (){
+        List<String> joblist = new ArrayList<String>();
+        boolean result = false;
+        try {
+            for (Job job : jdao.getData("", false)) {
+                joblist.add(job.getJobTitle());
+            }
 
+            
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return joblist;
+    }
+    
     public boolean insert(String id, String title, int minSalary, int maxSalary) {
         boolean result = false;
         try {

@@ -25,7 +25,6 @@ public class JobDAO {
         this.connection = connection;
     }
 
-
     public List<Job> getData(Object keyword, boolean isGetById) {
         String query;
         List<Job> job = new ArrayList<Job>();
