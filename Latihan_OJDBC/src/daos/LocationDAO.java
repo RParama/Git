@@ -20,6 +20,9 @@ public class LocationDAO {
 
     private Connection connection;
 
+    /**
+     * Method LocationDAO merupakan constructor method dari class LocationDAO
+     */
     public LocationDAO(Connection connection) {
         this.connection = connection;
     }
@@ -99,6 +102,9 @@ public class LocationDAO {
         return result;
     }
 
+    /**
+     * Method delete berfungsi untuk menghapus location berdasarkan location_id nya
+     */
     public boolean delete(int id) {
         boolean result = false;
         String query = "DELETE LOCATIONS WHERE LOCATION_ID = " + id;
