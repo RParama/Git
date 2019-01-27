@@ -15,17 +15,17 @@ import models.Region;
 
 /**
  *
- * @author User
+ * @author Suwandi
  */
-public class CountriesDAO {
+public class CountrieDAO {
 
     private Connection connection;
-
+    
     /**
      * Method CountriesDAO merupakan constructor method dari class CountriesDAO 
-     * yang berfungsi untuk melakukan koneksi dengan menggunakan parameter Connection
+     * yang berfungsi untuk melakukan koneksi dengan menggunakan parameter Connection 
      */
-    public CountriesDAO(Connection connection) {
+    public CountrieDAO(Connection connection) {
         this.connection = connection;
     }
 
@@ -53,7 +53,7 @@ public class CountriesDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         return cs;
     }
 
@@ -67,13 +67,12 @@ public class CountriesDAO {
         String query;
         List<Countries> cs = new ArrayList<Countries>();
         if (!z) {
-            query = "SELECT country_id, country_name, region_id FROM hr.countries"
-                    + "WHERE country_id LIKE '%" + keyword + "%'"
-                    + "OR country_name LIKE '%" + keyword + "%'"
-                    + "OR region_id LIKE '%" + keyword + "%'";
+            query = "SELECT COUNTRY_ID, COUNTRY_NAME, REGION_ID FROM COUNTRIES "
+                    + "WHERE COUNTRY_ID LIKE '%" + keyword + "%' "
+                    + "OR COUNTRY_NAME LIKE '%" + keyword + "%' "
+                    + "OR REGION_ID LIKE '%" + keyword + "%' ";
         } else {
-            query = "SELECT * FROM hr.countries WHERE country_id=" + keyword;
-
+            query = "SELECT * FROM COUNTRIES WHERE COUNTRY_ID =" + keyword;//
         }
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -118,7 +117,7 @@ public class CountriesDAO {
         return result;
     }
 
-    /**
+   /**
      * Method hapus berfunngsi untuk menghapus data countries pada database
      * Method ini memiliki parameter objek r dari class Countries
      * Method ini akan menghapus data dari database berdasarkan country id nya
@@ -132,6 +131,55 @@ public class CountriesDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    /**
+     * Method delete berfunngsi untuk menghapus data countries pada database
+     * Method ini memiliki parameter objek r dari class Countries
+     * Method ini akan menghapus data dari database berdasarkan country id nya
+     */
+    public boolean delete(String id) {
+        boolean result = false;
+        String query = "DELETE FROM hr.countries WHERE country_id='"+id+"'";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+//            preparedStatement.setString(1, r.getCountryId());
+//            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    /**
+     * Method getAll2 digunakan untuk menampilkan semua data yang ada pada tabel countries (id, name dan region id)
+     * Membuat sebuah list yang berfungsi untuk menampung hasil dengan nama "cs"
+     * Mengambil data dengan perintah query yang disimpan pada variable query
+     * Menyiapkan query yang akan dieksekusi (connection.prepareStatement(query))
+     * Melakkan eksekusi query (preparedStatement.executeQuery())
+     * Membuat sebuah objek yang bernama "r" dari class Countries yang akan memanggil method yang ada di class Countries
+     * Output berupa list yang berisi data yang telah ditambahkan di dalam list (region id, country name dan region id)
+     */
+    public List<Countries> getAll2() {
+        PreparedStatement ps = null;
+        List list = new ArrayList();
+        ResultSet rs = null;
+        String query = "SELECT * FROM hr.countries";
+        try {
+            ps = connection.prepareStatement(query);   //menyiapkan query.dari prepareStatement.menggunakan koneksi
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Countries r = new Countries();
+                r.setCountryId(rs.getString(""));
+                r.setCountryName(rs.getString(""));
+                r.setRegionId(rs.getInt(3));
+                list.add(r);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 }
