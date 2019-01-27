@@ -36,6 +36,12 @@ public class Job {
     public Job() {
     }
   
+    /**
+     * Method Job merupakan constructor method dari class Job
+     * method yang pertama kali dijalankan ketika class di eksekusi
+     * yang memiliki paramter id bertipe data string
+     * Memiliki access modifier public
+     */
     public Job(String id) {
            this.jobId=id;
          }
