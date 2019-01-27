@@ -110,11 +110,11 @@ public class DepartmentController {
     }
 
      /**
-     * Method insert digunakan untuk melakukan insert data baru ke database
+     * Method update digunakan untuk melakukan update data baru ke database
      * dengan cara memanggil method save dengan kondisi false pada class DepartmentDAO
-     * Method insert memiliki parameter departmentId, departmentName, 
+     * Method update memiliki parameter departmentId, departmentName, 
      * managerId dan locationId yang memiliki tipe data string
-     * Method insert memiliki access modifier public
+     * Method update memiliki access modifier public
      */
     public boolean update(String departmentId, String departmentName,
             String managerId, String locationId) {
