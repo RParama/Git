@@ -5,6 +5,11 @@
  */
 package views;
 
+import controllers.LocationController;
+import javax.swing.table.DefaultTableModel;
+import models.Location;
+import tools.Connections;
+
 /**
  *
  * @author Dell
@@ -14,8 +19,61 @@ public class LocationFrame extends javax.swing.JInternalFrame {
     /**
      * Creates new form Location
      */
+    private DefaultTableModel model;
+    Connections connections = new Connections();
+
+    LocationController lcon = new LocationController(connections.getConnection());
+
     public LocationFrame() {
         initComponents();
+        loadData();
+    }
+
+    public void loadData() {
+        model = new DefaultTableModel();
+        locTable.setModel(model);
+        String[] colName = {"Location ID", "Street Address",
+            "Postal Code", "City", "State Province", "Country ID"};
+        for (int i = 0; i < colName.length; i++) {
+            model.addColumn(colName[i]);
+        }
+
+        Object[] dataLoc = new Object[6];
+
+        for (Location l : lcon.getDataSearch("")) {
+            dataLoc[0] = l.getLocationId();
+            dataLoc[1] = l.getStreetAddress();
+            dataLoc[2] = l.getPostalCode();
+            dataLoc[3] = l.getCity();
+            dataLoc[4] = l.getStateProvince();
+            dataLoc[5] = l.getCountryId();
+            model.addRow(dataLoc);
+        }
+
+    }
+
+    public void select() {
+        int i = locTable.getSelectedRow();
+//        System.out.println("" + i);
+        if (i == -1) {
+            return;
+        }
+        int id = (int) model.getValueAt(i, 0);
+        String street = (String) model.getValueAt(i, 1);
+        String postal = (String) model.getValueAt(i, 1);
+        String city = (String) model.getValueAt(i, 1);
+        String state = (String) model.getValueAt(i, 1);
+        String countryId = (String) model.getValueAt(i, 1);
+
+        jTextField1.setText(Integer.toString(id));
+        jTextField2.setText(String.valueOf(street));
+        jTextField3.setText(String.valueOf(postal));
+        jTextField4.setText(String.valueOf(city));
+        jTextField5.setText(String.valueOf(state));
+        jTextField6.setText(String.valueOf(countryId));
+
+        jButton3.setText("UPDATE");
+
     }
 
     /**
@@ -26,7 +84,13 @@ public class LocationFrame extends javax.swing.JInternalFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@localhost:1521:XEPU").createEntityManager();
+        locationsQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT l FROM Locations l");
+        locationsList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : locationsQuery.getResultList();
+        locationsQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT l FROM Locations l");
+        locationsList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : locationsQuery1.getResultList();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -39,10 +103,13 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
+        jTextField7 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        locTable = new javax.swing.JTable();
 
         setClosable(true);
         setResizable(true);
@@ -61,28 +128,76 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         jLabel6.setText("COUNTRY ID");
 
         jButton1.setText("SEARCH");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("DELETE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("UPDATE");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("CLEAN");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, locationsList1, locTable);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${locationId}"));
+        columnBinding.setColumnName("Location Id");
+        columnBinding.setColumnClass(Short.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${streetAddress}"));
+        columnBinding.setColumnName("Street Address");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${postalCode}"));
+        columnBinding.setColumnName("Postal Code");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${city}"));
+        columnBinding.setColumnName("City");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${stateProvince}"));
+        columnBinding.setColumnName("State Province");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${countryId}"));
+        columnBinding.setColumnName("Country Id");
+        columnBinding.setColumnClass(String.class);
+        bindingGroup.addBinding(jTableBinding);
+
+        locTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                locTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(locTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(151, Short.MAX_VALUE)
                         .addComponent(jButton4)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
+                        .addComponent(jButton2)
+                        .addGap(184, 184, 184))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,13 +209,18 @@ public class LocationFrame extends javax.swing.JInternalFrame {
                             .addComponent(jLabel6))
                         .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField6)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jTextField5)
                             .addComponent(jTextField4)
                             .addComponent(jTextField3)
                             .addComponent(jTextField2)
-                            .addComponent(jTextField1))))
-                .addGap(102, 102, 102))
+                            .addComponent(jTextField1)
+                            .addComponent(jTextField6))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,20 +249,88 @@ public class LocationFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
+                    .addComponent(jButton4)
                     .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(302, Short.MAX_VALUE))
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jButton3.setText("INSERT");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        if (jButton3.getText() == "INSERT") {
+            lcon.insert(jTextField1.getText(), jTextField2.getText(),
+                    jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), jTextField6.getText());
+            loadData();
+        } else {
+            lcon.update(jTextField1.getText(), jTextField2.getText(),
+                    jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), jTextField6.getText());
+            loadData();
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+
+
+            model = new DefaultTableModel();
+            locTable.setModel(model);
+            String[] colName = {"Location ID", "Street Address",
+                "Postal Code", "City", "State Province", "Country ID"};
+            for (int i = 0; i < colName.length; i++) {
+                model.addColumn(colName[i]);
+            }
+
+            Object[] dataLoc = new Object[6];
+
+            for (Location l : lcon.getDataById(jTextField7.getText())) {
+                dataLoc[0] = l.getLocationId();
+                dataLoc[1] = l.getStreetAddress();
+                dataLoc[2] = l.getPostalCode();
+                dataLoc[3] = l.getCity();
+                dataLoc[4] = l.getStateProvince();
+                dataLoc[5] = l.getCountryId();
+                model.addRow(dataLoc);
+            }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        lcon.delete(jTextField1.getText());
+        loadData();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void locTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_locTableMouseClicked
+        // TODO add your handling code here:
+        select();
+    }//GEN-LAST:event_locTableMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -153,11 +341,20 @@ public class LocationFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
+    private javax.swing.JTable locTable;
+    private java.util.List<views.Locations> locationsList;
+    private java.util.List<views.Locations> locationsList1;
+    private javax.persistence.Query locationsQuery;
+    private javax.persistence.Query locationsQuery1;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
+
 }

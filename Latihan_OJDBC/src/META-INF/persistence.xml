@@ -3,6 +3,8 @@
   <persistence-unit name="jdbc:oracle:thin:@localhost:1521:XEPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>views.Regions</class>
+    <class>views.Departments</class>
+    <class>views.Locations</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
       <property name="javax.persistence.jdbc.user" value="SYSTEM"/>
