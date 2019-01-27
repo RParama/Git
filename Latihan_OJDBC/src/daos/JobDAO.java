@@ -21,10 +21,21 @@ public class JobDAO {
 
     private Connection connection;
 
+    /**
+     * Method JobDAO merupakan constructor method dari class JobDAO
+     */
     public JobDAO(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Method getData digunakan untuk melakukan pencarian data 
+     * pada tabel database Jobs berdasarkan keyword yang di inputkan
+     * Jika isGetById bernilai false, maka sistem akan menampilkan 
+     * semua data yang berkaitan dengan keyword yang di inputkan
+     * Jika isGetById bernilai true, maka sistem akan menampilkan
+     * job title, min salary, max salary berdasrkan job_id nya
+     */
     public List<Job> getData(Object keyword, boolean isGetById) {
         String query;
         List<Job> job = new ArrayList<Job>();
@@ -48,8 +59,12 @@ public class JobDAO {
         return job;
     }
 
-   
-
+    /**
+     * Method save ini berfungsi untuk melakukan insert dan update pada database
+     * Method ini memiliki parameter j sebagai objek dari class Job 
+     * Jika nilai isInsert bernilai false, maka sistem akan melakukan update data pada database
+     * Jika nilai isInsert bernilai true, maka sistem akan melakukan insert data baru ke database
+     */
     public boolean save(Job j, boolean isInsert) {
         String query;
         boolean result = false;
@@ -75,6 +90,10 @@ public class JobDAO {
         return result;
     }
 
+    /**
+     * Method delete digunakan untuk menghapus data berdasrkan job_id nya
+     * 
+     */
     public boolean delete(Job id) {
         boolean result = false;
         String query = "DELETE JOBS WHERE JOB_ID ='" +id.getJobId()+"'";
