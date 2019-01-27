@@ -23,10 +23,20 @@ public class EmployeeDAO {
 
     private Connection connection;
 
+    /**
+     * Method EmployeeDAO merupakan constructor dari class EmployeeDAO
+     * Method ini berfungsi untuk melakukan koneksi dengan menggunakan parameter Connection
+     */
     public EmployeeDAO(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Method getData berfungsi untuk melakukan pencarian berdasarkan keyword yang di inputkan
+     * Jika nilai dari isGetId bernilai true, maka sistem akan menampilkan data sesuai dengan employee id nya
+     * Jika nilai dari isGetId bernilai false, maka sistem akan menampilkan semua data 
+     * yang berhubungan dengan karakter yang di inputkan
+     */
     public List<Employee> getData(Object keyword, boolean isGetById) {
         String query;
         List<Employee> employees = new ArrayList<Employee>();
@@ -56,6 +66,12 @@ public class EmployeeDAO {
         return employees;
     }
     
+    /**
+     * Method save berfungsi untuk melakuka insert dan update data pada database
+     * Method save memiliki parameter e sebagi objek dari class Employee dan kondisi isInsert yang bertipedata boolean
+     * Jika isInsert bernilai true, maka sistem akan melakukan insert ke tabel employees
+     * Jika isInsert bernilai false, maka sistem akan melakukan update data employee pada tabel employees
+     */
     public boolean save(Employee e, boolean isInsert) {
         String query;
         boolean result = false;
@@ -97,6 +113,9 @@ public class EmployeeDAO {
         return result;
     }
 
+    /**
+     * Method delete berfungsi untuk menghapus employee berdasarkan id nya
+     */
     public boolean delete(int id) {
         boolean result = false;
         String query = "DELETE EMPLOYEES WHERE EMPLOYEE_ID = " + id;
