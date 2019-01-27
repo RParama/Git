@@ -5,6 +5,10 @@
  */
 package views;
 
+import controllers.RegionController;
+import javax.swing.table.DefaultTableModel;
+import tools.Connections;
+
 /**
  *
  * @author SAMSUNG
@@ -14,6 +18,11 @@ public class RegionFrame extends javax.swing.JInternalFrame {
     /**
      * Creates new form RegionFrame
      */
+    
+    private DefaultTableModel model;
+    Connections connections = new Connections();
+    RegionController rcon = new RegionController(connections.getConnection());
+    
     public RegionFrame() {
         initComponents();
     }
@@ -68,6 +77,11 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         jButton1.setText("Cari");
 
         jButton2.setText("Delete");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Update");
 
@@ -144,6 +158,10 @@ public class RegionFrame extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
