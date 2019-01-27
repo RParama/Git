@@ -80,7 +80,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="jLabel2" max="32767" attributes="0"/>
-                          <Component id="btn_search" max="32767" attributes="0"/>
+                          <Component id="btn_cari" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -121,7 +121,7 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btn_search" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_cari" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tf_cari" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -152,12 +152,12 @@
     </Component>
     <Component class="javax.swing.JTextField" name="tf_nama">
     </Component>
-    <Component class="javax.swing.JButton" name="btn_search">
+    <Component class="javax.swing.JButton" name="btn_cari">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cari"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_searchActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_cariActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tf_cari">
@@ -172,7 +172,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btn_update">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Insert"/>
+        <Property name="text" type="java.lang.String" value="Update"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_updateActionPerformed"/>

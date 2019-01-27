@@ -33,7 +33,7 @@ public class Region {
      * dari parameter method Region
      * Method Region memiliki access modifier public
      */
-    public Region(int regionId, String regionName) {
+    public Region(int regionId) {
         this.regionId = regionId;
     }
 

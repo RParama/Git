@@ -25,24 +25,6 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;views.Locations&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.persistence.Query" name="locationsQuery1">
-      <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT l FROM Locations l"/>
-        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
-          <ComponentRef name="entityManager"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="java.util.List" name="locationsList1">
-      <Properties>
-        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="locationsQuery1"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;views.Locations&gt;"/>
-      </AuxValues>
-    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="closable" type="boolean" value="true"/>
@@ -286,23 +268,29 @@
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="locationsList1" target="locTable" targetPath="elements" updateStrategy="0" immediately="false">
+            <BindingProperty name="elements" source="locationsList" target="locTable" targetPath="elements" updateStrategy="0" immediately="true">
               <Subbinding sourcePath="${locationId}">
+                <BindingParameter name="NAME" value="Location Id"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Short.class"/>
               </Subbinding>
               <Subbinding sourcePath="${streetAddress}">
+                <BindingParameter name="NAME" value="Street Address"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
               <Subbinding sourcePath="${postalCode}">
+                <BindingParameter name="NAME" value="Postal Code"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
               <Subbinding sourcePath="${city}">
+                <BindingParameter name="NAME" value="City"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
               <Subbinding sourcePath="${stateProvince}">
+                <BindingParameter name="NAME" value="State Province"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
               <Subbinding sourcePath="${countryId}">
+                <BindingParameter name="NAME" value="Country Id"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
             </BindingProperty>
