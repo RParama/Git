@@ -23,13 +23,13 @@ public class RegionController {
     public RegionController(Connection connection) {
         rdao = new RegionDAO(connection);
     }
-    
-    public List<String> getRegionList(){
+
+    public List<String> getRegionList() {
         List<String> regionList = new ArrayList<String>();
         boolean result = false;
         try {
             for (Region region : rdao.getData("", false)) {
-                regionList.add(region.getRegionName());        
+                regionList.add(region.getRegionName());
             }
             result = true;
         } catch (Exception e) {
@@ -37,19 +37,19 @@ public class RegionController {
         }
         return regionList;
     }
-    
+
     public List<Region> getDataById(String id) {
         List<Region> regions = new ArrayList<Region>();
         try {
-            int idINT = new Integer (id);
-                regions = rdao.getData(idINT, true);
+            int idINT = new Integer(id);
+            regions = rdao.getData(idINT, true);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return regions;
     }
-    
-    public List<Region> getDataSearch(Object k){
+
+    public List<Region> getDataSearch(Object k) {
         List<Region> regions = new ArrayList<Region>();
         try {
             regions = rdao.getData(k, false);
@@ -70,7 +70,7 @@ public class RegionController {
         }
         return result;
     }
-    
+
     public boolean update(String id, String name) {
         boolean result = false;
         try {
@@ -82,8 +82,8 @@ public class RegionController {
         }
         return result;
     }
-    
-    public boolean delete(String id){
+
+    public boolean delete(String id) {
         boolean result = false;
         try {
             int idRegionINT = new Integer(id);
@@ -94,5 +94,5 @@ public class RegionController {
         }
         return result;
     }
-    
+
 }

@@ -8,11 +8,7 @@ package views;
 import controllers.DepartmentController;
 import controllers.EmployeeController;
 import controllers.JobController;
-import java.time.Clock;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import models.Employee;
 import tools.Connections;
@@ -64,7 +60,6 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
             dataEmp[10] = e.getDepartment();
             model.addRow(dataEmp);
         }
-
     }
 
     public void select() {
@@ -78,7 +73,7 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
         String last = (String) model.getValueAt(i, 2);
         String email = (String) model.getValueAt(i, 3);
         String phone = (String) model.getValueAt(i, 4);
-        Date date = (Date)model.getValueAt(i, 5);
+        Date date = (Date) model.getValueAt(i, 5);
         String jobs = (String) model.getValueAt(i, 6);
         int salary = (int) model.getValueAt(i, 7);
         int commission = (int) model.getValueAt(i, 8);
@@ -158,56 +153,56 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
         setVisible(true);
 
         jLabel1.setText("ID");
-        getContentPane().add(jLabel1);
+        getContentPane().add(jLabel1, java.awt.BorderLayout.CENTER);
 
         jLabel2.setText("First Name");
-        getContentPane().add(jLabel2);
-        getContentPane().add(jTextField1);
-        getContentPane().add(jTextField2);
-        getContentPane().add(jTextField3);
+        getContentPane().add(jLabel2, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(jTextField1, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(jTextField2, java.awt.BorderLayout.LINE_END);
+        getContentPane().add(jTextField3, java.awt.BorderLayout.LINE_START);
 
         jLabel3.setText("Last Name");
-        getContentPane().add(jLabel3);
+        getContentPane().add(jLabel3, java.awt.BorderLayout.CENTER);
 
         jLabel4.setText("Email");
-        getContentPane().add(jLabel4);
-        getContentPane().add(jTextField4);
+        getContentPane().add(jLabel4, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jTextField4, java.awt.BorderLayout.CENTER);
 
         jLabel7.setText("Job");
-        getContentPane().add(jLabel7);
-        getContentPane().add(jTextField7);
+        getContentPane().add(jLabel7, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jTextField7, java.awt.BorderLayout.CENTER);
 
         jLabel6.setText("Hire Date");
-        getContentPane().add(jLabel6);
+        getContentPane().add(jLabel6, java.awt.BorderLayout.CENTER);
 
         jLabel5.setText("Phone");
-        getContentPane().add(jLabel5);
+        getContentPane().add(jLabel5, java.awt.BorderLayout.CENTER);
 
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField5);
+        getContentPane().add(jTextField5, java.awt.BorderLayout.CENTER);
 
         jLabel8.setText("Salary");
-        getContentPane().add(jLabel8);
+        getContentPane().add(jLabel8, java.awt.BorderLayout.CENTER);
 
         jTextField8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField8ActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField8);
+        getContentPane().add(jTextField8, java.awt.BorderLayout.CENTER);
 
         jLabel9.setText("Commission");
-        getContentPane().add(jLabel9);
+        getContentPane().add(jLabel9, java.awt.BorderLayout.CENTER);
 
         jLabel10.setText("Manager");
-        getContentPane().add(jLabel10);
+        getContentPane().add(jLabel10, java.awt.BorderLayout.CENTER);
 
         jLabel11.setText("Department");
-        getContentPane().add(jLabel11);
+        getContentPane().add(jLabel11, java.awt.BorderLayout.CENTER);
 
         jButton2.setText("CLEAN");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -215,7 +210,7 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2);
+        getContentPane().add(jButton2, java.awt.BorderLayout.CENTER);
 
         jButton3.setText("INSERT");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -223,7 +218,7 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3);
+        getContentPane().add(jButton3, java.awt.BorderLayout.CENTER);
 
         jButton4.setText("DELETE");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -231,7 +226,7 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4);
+        getContentPane().add(jButton4, java.awt.BorderLayout.CENTER);
 
         jButton1.setText("CARI");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -239,11 +234,11 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        getContentPane().add(jTextField6);
-        getContentPane().add(jTextField10);
-        getContentPane().add(jTextField9);
-        getContentPane().add(jTextField11);
+        getContentPane().add(jButton1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jTextField6, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jTextField10, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jTextField9, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jTextField11, java.awt.BorderLayout.CENTER);
 
         empTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -271,7 +266,7 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(empTable);
 
-        getContentPane().add(jScrollPane2);
+        getContentPane().add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -302,18 +297,18 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if(jButton3.getText()== "INSERT"){
-        econ.insert(jTextField1.getText(),jTextField2.getText(), 
-                jTextField3.getText(),jTextField4.getText(),jTextField5.getText(),
-                jDateChooser1.getDate(),jTextField6.getText(),jTextField7.getText()
-        ,jTextField8.getText(),jTextField9.getText(),jTextField11.getText());
-        loadData();
-        }else{
-        econ.update(jTextField1.getText(),jTextField2.getText(), 
-                jTextField3.getText(),jTextField4.getText(),jTextField5.getText(),
-                jDateChooser1.getDate(),jTextField6.getText(),jTextField7.getText()
-        ,jTextField8.getText(),jTextField9.getText(),jTextField11.getText());
-        loadData();
+        if (jButton3.getText() == "INSERT") {
+            econ.insert(jTextField1.getText(), jTextField2.getText(),
+                    jTextField3.getText(), jTextField4.getText(), jTextField5.getText(),
+                    jDateChooser1.getDate(), jTextField6.getText(), jTextField7.getText(),
+                     jTextField8.getText(), jTextField9.getText(), jTextField11.getText());
+            loadData();
+        } else {
+            econ.update(jTextField1.getText(), jTextField2.getText(),
+                    jTextField3.getText(), jTextField4.getText(), jTextField5.getText(),
+                    jDateChooser1.getDate(), jTextField6.getText(), jTextField7.getText(),
+                     jTextField8.getText(), jTextField9.getText(), jTextField11.getText());
+            loadData();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -323,7 +318,7 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      model = new DefaultTableModel();
+        model = new DefaultTableModel();
         empTable.setModel(model);
         String[] colName = {"Employee ID", "First Name",
             "Last Name", "Email", "Phone Number", "Hire Date", "Job ID", "Salary",

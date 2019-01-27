@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Fun/Work/Git/Latihan_OJDBC/src/views/HR.java</file>
             <file>file:/D:/Fun/Work/Git/Latihan_OJDBC/src/views/RegionFrame.java</file>
+            <file>file:/D:/Fun/Work/Git/Latihan_OJDBC/src/views/DepartmentFrame.java</file>
+            <file>file:/D:/Fun/Work/Git/Latihan_OJDBC/src/views/EmployeeFrame.java</file>
+            <file>file:/D:/Fun/Work/Git/Latihan_OJDBC/src/controllers/DepartmentController.java</file>
+            <file>file:/D:/Fun/Work/Git/Latihan_OJDBC/src/views/HR.java</file>
             <file>file:/D:/Fun/Work/Git/Latihan_OJDBC/src/controllers/RegionController.java</file>
         </group>
     </open-files>

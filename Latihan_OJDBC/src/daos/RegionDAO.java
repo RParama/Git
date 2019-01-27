@@ -32,12 +32,10 @@ public class RegionDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 regions.add(new Region(resultSet.getInt(1), resultSet.getString(2)));
-
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return regions;
     }
 
@@ -63,23 +61,6 @@ public class RegionDAO {
         return regions;
     }
 
-    public List<Region> getById(int id) {
-        List<Region> regions = new ArrayList<Region>();
-        String query = "SELECT * FROM REGIONS WHERE REGION_ID = " + id;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                regions.add(new Region(resultSet.getInt(1), resultSet.getString(2)));
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return regions;
-    }
-
     public List<Region> search(String keyword) {
         List<Region> regions = new ArrayList<Region>();
         String keywordlower = keyword.toLowerCase();
@@ -98,37 +79,6 @@ public class RegionDAO {
 
         return regions;
     }
-
-//    public boolean insert(Region r) {
-//        boolean result = false;
-//        String query = "INSERT INTO REGIONS VALUES(?,?)";
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement(query);
-//            preparedStatement.setInt(1, r.getRegionId());
-//            preparedStatement.setString(2, r.getRegionName());
-//            preparedStatement.executeQuery();
-//            result = true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//    }
-//
-//    public boolean update(Region r) {
-//        boolean result = false;
-//        String query = "UPDATE REGIONS SET REGION_NAME = ? WHERE REGION_ID = ?";
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement(query);
-//            preparedStatement.setString(1, r.getRegionName());
-//            preparedStatement.setInt(2, r.getRegionId());
-//            preparedStatement.executeQuery();
-//            result = true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//
-//        }
-//        return result;
-//    }
 
     public boolean save(Region r, boolean isInsert) {
         String query;
