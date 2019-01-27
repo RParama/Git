@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import models.Region;
-import tools.Connections;
 
 /**
  *

@@ -29,7 +29,6 @@ public class Job {
            this.jobId=id;
          }
 
-
     public String getJobId() {
         return jobId;
     }
