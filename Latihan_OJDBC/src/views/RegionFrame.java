@@ -58,6 +58,20 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         tf_nama.setText(String.valueOf(name));
         btn_update.setText("Update");
     }
+
+    public void select() {
+        int i = regTable.getSelectedRow();
+        System.out.println("" + i);
+        if (i == -1) {
+            return;
+        }
+        Integer id = (Integer) model.getValueAt(i, 0);
+        String name = (String) model.getValueAt(i, 1);
+
+        tf_id.setText(String.valueOf(id));
+        tf_nama.setText(String.valueOf(name));
+        btn_update.setText("Update");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -77,7 +91,7 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         tf_id = new javax.swing.JTextField();
         tf_nama = new javax.swing.JTextField();
-        btn_cari = new javax.swing.JButton();
+        btn_search = new javax.swing.JButton();
         tf_cari = new javax.swing.JTextField();
         btn_delete = new javax.swing.JButton();
         btn_update = new javax.swing.JButton();
@@ -105,10 +119,10 @@ public class RegionFrame extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Nama");
 
-        btn_cari.setText("Cari");
-        btn_cari.addActionListener(new java.awt.event.ActionListener() {
+        btn_search.setText("Cari");
+        btn_search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_cariActionPerformed(evt);
+                btn_searchActionPerformed(evt);
             }
         });
 
@@ -119,7 +133,7 @@ public class RegionFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        btn_update.setText("Update");
+        btn_update.setText("Insert");
         btn_update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_updateActionPerformed(evt);
@@ -163,7 +177,7 @@ public class RegionFrame extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_cari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btn_search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(tf_nama)
@@ -193,7 +207,7 @@ public class RegionFrame extends javax.swing.JInternalFrame {
                     .addComponent(tf_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_cari)
+                    .addComponent(btn_search)
                     .addComponent(tf_cari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -210,7 +224,18 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cariActionPerformed
+    private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
+        rcon.delete(tf_id.getText());
+        loadData();
+    }//GEN-LAST:event_btn_deleteActionPerformed
+
+    private void btn_cleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cleanActionPerformed
+        tf_id.setText("");
+        tf_nama.setText("");
+        btn_update.setText("Insert");
+    }//GEN-LAST:event_btn_cleanActionPerformed
+
+    private void btn_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_searchActionPerformed
         model = new DefaultTableModel();
         regTable.setModel(model);
         String[] colName = {"Region Id", "Region Name"};
@@ -224,12 +249,11 @@ public class RegionFrame extends javax.swing.JInternalFrame {
             dataReg[1] = r.getRegionName();
             model.addRow(dataReg);
         }
-    }//GEN-LAST:event_btn_cariActionPerformed
+    }//GEN-LAST:event_btn_searchActionPerformed
 
-    private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
-        rcon.delete(tf_id.getText());
-        loadData();
-    }//GEN-LAST:event_btn_deleteActionPerformed
+    private void regTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regTableMouseClicked
+        select();
+    }//GEN-LAST:event_regTableMouseClicked
 
     private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
         if (btn_update.getText() == "Insert") {
@@ -241,21 +265,11 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btn_updateActionPerformed
 
-    private void btn_cleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cleanActionPerformed
-        tf_id.setText("");
-        tf_nama.setText("");
-        btn_update.setText("Insert");
-    }//GEN-LAST:event_btn_cleanActionPerformed
-
-    private void regTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regTableMouseClicked
-        select();
-    }//GEN-LAST:event_regTableMouseClicked
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_cari;
     private javax.swing.JButton btn_clean;
     private javax.swing.JButton btn_delete;
+    private javax.swing.JButton btn_search;
     private javax.swing.JButton btn_update;
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JLabel jLabel1;
