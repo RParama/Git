@@ -13,6 +13,11 @@ public class Region {
 
     private int regionId;
     private String regionName;
+    
+    public Region(int regionId, String regionName) {
+        this.regionId = regionId;
+        this.regionName = regionName;
+    }
 
     /**
      * Method Region merupakan constructor method dari class Region
@@ -30,7 +35,6 @@ public class Region {
      */
     public Region(int regionId, String regionName) {
         this.regionId = regionId;
-        this.regionName = regionName;
     }
 
     /**
@@ -66,5 +70,5 @@ public class Region {
     public void setRegionName(String regionName) {
         this.regionName = regionName;
     }
-
+    
 }

@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import models.Region;
-import tools.Connections;
 
 /**
  *
@@ -41,12 +40,10 @@ public class RegionDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 regions.add(new Region(resultSet.getInt(1), resultSet.getString(2)));
-
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return regions;
     }
 
@@ -119,37 +116,6 @@ public class RegionDAO {
 
         return regions;
     }
-
-//    public boolean insert(Region r) {
-//        boolean result = false;
-//        String query = "INSERT INTO REGIONS VALUES(?,?)";
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement(query);
-//            preparedStatement.setInt(1, r.getRegionId());
-//            preparedStatement.setString(2, r.getRegionName());
-//            preparedStatement.executeQuery();
-//            result = true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//    }
-//
-//    public boolean update(Region r) {
-//        boolean result = false;
-//        String query = "UPDATE REGIONS SET REGION_NAME = ? WHERE REGION_ID = ?";
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement(query);
-//            preparedStatement.setString(1, r.getRegionName());
-//            preparedStatement.setInt(2, r.getRegionId());
-//            preparedStatement.executeQuery();
-//            result = true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//
-//        }
-//        return result;
-//    }
 
     public boolean save(Region r, boolean isInsert) {
         String query;

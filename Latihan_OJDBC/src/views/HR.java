@@ -47,30 +47,28 @@ public class HR extends javax.swing.JFrame {
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1682, Short.MAX_VALUE)
+            .addGap(0, 1269, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2656, Short.MAX_VALUE)
+            .addGap(0, 2514, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jDesktopPane1)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+            .addComponent(jDesktopPane1)
         );
 
         jMenuRegion.setText("CRUD");
+        jMenuRegion.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
+        jMenuItem1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jMenuItem1.setText("Regions");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,6 +77,7 @@ public class HR extends javax.swing.JFrame {
         });
         jMenuRegion.add(jMenuItem1);
 
+        jMenuItem2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jMenuItem2.setText("Countries");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,6 +86,7 @@ public class HR extends javax.swing.JFrame {
         });
         jMenuRegion.add(jMenuItem2);
 
+        jMenuItem3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jMenuItem3.setText("Locations");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,6 +95,7 @@ public class HR extends javax.swing.JFrame {
         });
         jMenuRegion.add(jMenuItem3);
 
+        jMenuItem4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jMenuItem4.setText("Departments");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,6 +104,7 @@ public class HR extends javax.swing.JFrame {
         });
         jMenuRegion.add(jMenuItem4);
 
+        jMenuItem5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jMenuItem5.setText("Jobs");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,6 +113,7 @@ public class HR extends javax.swing.JFrame {
         });
         jMenuRegion.add(jMenuItem5);
 
+        jMenuItem6.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jMenuItem6.setText("Employees");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,9 +162,9 @@ public class HR extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-       RegionForm regionform=new RegionForm();
-       jDesktopPane1.add(regionform);
-        regionform.setVisible(true);
+       RegionFrame regionframe=new RegionFrame();
+       jDesktopPane1.add(regionframe);
+        regionframe.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
