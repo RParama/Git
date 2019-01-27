@@ -94,6 +94,11 @@ public class DepartmentDAO {
         return result;
     }
 
+     /**
+     * Method delete digunakan untuk menghapus data department berdasarkan id department
+     * Memiliki parameter id dengan tipe data integer 
+     * yang digunakan untuk menghapus department id yang ada di database
+     */
     public boolean delete(int id) {
         boolean result = false;
         String query = "DELETE DEPARTMENTS WHERE DEPARTMENT_ID = " + id;
