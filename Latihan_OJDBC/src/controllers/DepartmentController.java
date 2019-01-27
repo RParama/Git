@@ -36,7 +36,7 @@ public class DepartmentController {
      * Method getDepList digunakan untuk menampilkan data pada department secara keseluruhan
      * dengan cara memanggil method getData dengan kondisi false pada class DepartmentDAO
      * Method getDepList memiliki list bernama depList yang berfungsi untuk menyimpan hasil pencarian
-     * Method getJobTitle memiliki access modifier public
+     * Method getDepList memiliki access modifier public
      */
     public List<String> getDepList() {
         List<String> depList = new ArrayList<String>();
