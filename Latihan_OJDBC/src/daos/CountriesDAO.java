@@ -21,10 +21,23 @@ public class CountriesDAO {
 
     private Connection connection;
 
+    /**
+     * Method CountriesDAO merupakan constructor method dari class CountriesDAO 
+     * yang berfungsi untuk melakukan koneksi dengan menggunakan parameter Connection
+     */
     public CountriesDAO(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Method getAll digunakan untuk menampilkan semua data yang ada pada tabel countries (id, name dan region id)
+     * Membuat sebuah list yang berfungsi untuk menampung hasil dengan nama "cs"
+     * Mengambil data dengan perintah query yang disimpan pada variable query
+     * Menyiapkan query yang akan dieksekusi (connection.prepareStatement(query))
+     * Melakkan eksekusi query (preparedStatement.executeQuery())
+     * Membuat sebuah objek yang bernama "r" dari class Countries yang akan memanggil method yang ada di class Countries
+     * Output berupa list yang berisi data yang telah ditambahkan di dalam list (region id, country name dan region id)
+     */
     public List<Countries> getAll() {
         List<Countries> cs = new ArrayList<>();
         String query = "SELECT * FROM hr.countries";
@@ -44,6 +57,12 @@ public class CountriesDAO {
         return cs;
     }
 
+    /**
+     * Method getData digunakan untuk menampilkan data bedasarkan keyword yang di inputkan
+     * Membuat list yang diberinama "cs" untuk menampung hasil pencarian
+     * Jika data yang di inputkan bernilai false, maka akan menampilkan hasil semua yang mengandung karakter pada keyword yang di inputkan
+     * Apabila data yang di inputkan bernilai true, maka akan menampilkan berdasarkan id yang di cari
+     */
     public List<Countries> getData(Object keyword, boolean z) {
         String query;
         List<Countries> cs = new ArrayList<Countries>();
@@ -69,6 +88,13 @@ public class CountriesDAO {
         return cs;
     }
 
+    /**
+     * Method save digunakan untuk melakukan update dan insert data baru
+     * Method ini memiliki parameter r objek dari class Countries
+     * Apabila data yang di intutkan bernilai false, maka akan melakukan update ke database
+     * Apabila data yang di inputkan bernilai false, maka akan melakukan insert data baru
+     *
+     */
     public boolean save(Countries r, boolean z) {
         boolean result = false;
         String query;
@@ -92,6 +118,11 @@ public class CountriesDAO {
         return result;
     }
 
+    /**
+     * Method hapus berfunngsi untuk menghapus data countries pada database
+     * Method ini memiliki parameter objek r dari class Countries
+     * Method ini akan menghapus data dari database berdasarkan country id nya
+     */
     public void hapus(Countries r) {
         String query = "DELETE FROM hr.countries WHERE country_id=?";
         try {
