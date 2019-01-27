@@ -5,6 +5,8 @@
  */
 package models;
 
+import java.util.Date;
+
 /**
  *
  * @author kresna92
@@ -16,14 +18,14 @@ public class Employee {
     private String last_name;
     private String email;
     private String phone;
-    private String hire;
+    private Date hire;
     private String job;
     private int salary;
     private int commission;
     private int manager;
     private int department;
 
-    public Employee(int id, String first_name, String last_name, String email, String phone, String hire, String job, int salary, int commision, int manager, int department) {
+    public Employee(int id, String first_name, String last_name, String email, String phone, Date hire, String job, int salary, int commision, int manager, int department) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -73,7 +75,7 @@ public class Employee {
         this.phone = phone;
     }
 
-    public void setHire(String hire) {
+    public void setHire(Date hire) {
         this.hire = hire;
     }
 
@@ -101,7 +103,7 @@ public class Employee {
         return phone;
     }
 
-    public String getHire() {
+    public Date getHire() {
         return hire;
     }
 

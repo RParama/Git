@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 import models.Employee;
 
 /**
@@ -43,10 +44,9 @@ public class EmployeeDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Timestamp t = resultSet.getTimestamp(6);
-                String s = new SimpleDateFormat("MM/dd/yyyy").format(t);
                 employees.add(new Employee(
                         resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
-                        resultSet.getString(5), s, resultSet.getString(7), resultSet.getInt(8),
+                        resultSet.getString(5), t, resultSet.getString(7), resultSet.getInt(8),
                         resultSet.getInt(9), resultSet.getInt(10), resultSet.getInt(11)));
             }
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class EmployeeDAO {
 
         return employees;
     }
-
+    
     public boolean save(Employee e, boolean isInsert) {
         String query;
         boolean result = false;
@@ -68,7 +68,9 @@ public class EmployeeDAO {
             query = "UPDATE EMPLOYEES SET FIRST_NAME = ? WHERE EMPLOYEE_ID = ?";
         }
         try {
-            String s = e.getHire();
+            Date d = e.getHire();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            String s = sdf.format(d);
             Timestamp t = Timestamp.valueOf(s);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             if (isInsert) {

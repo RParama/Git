@@ -8,6 +8,7 @@ package controllers;
 import daos.EmployeeDAO;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import models.Employee;
 
@@ -67,7 +68,7 @@ public class EmployeeController {
     }
 
     public boolean insert(String id, String first, String last, String email,
-            String phone, String hire, String job, String salary,
+            String phone, Date hire, String job, String salary,
             String commission, String manager, String dept) {
         boolean result = false;
         try {
@@ -86,7 +87,7 @@ public class EmployeeController {
     }
 
     public boolean update(String id, String first, String last, String email,
-            String phone, String hire, String job, String salary,
+            String phone, Date hire, String job, String salary,
             String commission, String manager, String dept) {
         boolean result = false;
         try {
