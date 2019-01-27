@@ -44,7 +44,7 @@ public class Countries {
     }
 
     /**
-     * Method setCountryId digunakan untuk memberikakn nilai pada variabel countryId  
+     * Method setCountryId digunakan untuk memberikakn nilai pada variabel global countryId  
      * berdasarkan variabel countryId pada parameter method setCountryId
      * Method setCountryId memiliki access modifier public
      */
@@ -61,7 +61,7 @@ public class Countries {
     }
 
     /**
-     * Method getCountryName digunakan untuk memberikakn nilai pada variabel countryName  
+     * Method getCountryName digunakan untuk memberikakn nilai pada variabel global countryName  
      * berdasarkan variabel countryName pada parameter method getCountryName
      * Method getCountryName memiliki access modifier public
      */
@@ -78,7 +78,7 @@ public class Countries {
     }
 
      /**
-     * Method setRegionId digunakan untuk memberikakn nilai pada variabel regionId  
+     * Method setRegionId digunakan untuk memberikakn nilai pada variabel global regionId  
      * berdasarkan variabel regionId pada parameter method setRegionId
      * Method setRegionId memiliki access modifier public
      */
