@@ -21,10 +21,18 @@ public class RegionDAO {
 
     private Connection connection;
 
+    /**
+     * Method RegionDAO merupakan constructor method dari class RegionDAO
+     * yang akan dijalankan pertama kali ketika class di eksekusi
+     */
     public RegionDAO(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Method getAll merupakan method yang digunakan untuk menampilkan data
+     * secara keseluruhan dari tabel Regions yang ada di database
+     */
     public List<Region> getAll() {
         List<Region> regions = new ArrayList<Region>();
         String query = "SELECT * from REGIONS";
@@ -42,6 +50,14 @@ public class RegionDAO {
         return regions;
     }
 
+    /**
+     * Method getData berfungsi untuk melakukan pencarian data yang ada pada tabel Regions
+     * berdasarkan keyword yang di inputkan
+     * Jika isGetById bernilai false, maka sistem akan menampilkan 
+     * semua data yang berhubungan dengan keyword yang di inputkan
+     * Jika isGetById bernilai true, maka sistem akan menampilkan 
+     * data regions berdasarkan region_id nya
+     */
     public List<Region> getData(Object keyword, boolean isGetById) {
         String query;
         List<Region> regions = new ArrayList<Region>();
@@ -64,6 +80,10 @@ public class RegionDAO {
         return regions;
     }
 
+    /**
+     * Method getById digunakan untuk melakukan pencarian regions berdasarkan id nya
+     * NULL
+     */
     public List<Region> getById(int id) {
         List<Region> regions = new ArrayList<Region>();
         String query = "SELECT * FROM REGIONS WHERE REGION_ID = " + id;
