@@ -46,10 +46,12 @@ public class RegionFrame extends javax.swing.JInternalFrame {
             dataReg[2] = r.getRegionName();
             model.addRow(dataReg);
         }
+        tf_id.enable();
     }
 
     public void reset() {
         tf_id.setText(rcon.getMaxRegId() + "");
+        tf_id.enable();
         tf_nama.setText("");
         tf_cari.setText("");
         loadData();
@@ -68,6 +70,7 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         tf_id.setText(String.valueOf(id));
         tf_nama.setText(String.valueOf(name));
         btn_update.setText("Update");
+        tf_id.disable();
     }
 
     /**
