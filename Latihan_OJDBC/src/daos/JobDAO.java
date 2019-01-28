@@ -21,20 +21,22 @@ public class JobDAO {
 
     private Connection connection;
 
-    /**
-     * Method JobDAO merupakan constructor method dari class JobDAO
+     /**
+     * Fungsi untuk melakukan koneksi ke database
+     * @param objek connection dari class Connection
      */
     public JobDAO(Connection connection) {
         this.connection = connection;
     }
 
     /**
-     * Method getData digunakan untuk melakukan pencarian data 
-     * pada tabel database Jobs berdasarkan keyword yang di inputkan
+     * Fungsi digunakan untuk melakukan pencarian data berdasarkan keyword yang di inputkan
      * Jika isGetById bernilai false, maka sistem akan menampilkan 
-     * semua data yang berkaitan dengan keyword yang di inputkan
-     * Jika isGetById bernilai true, maka sistem akan menampilkan
-     * job title, min salary, max salary berdasrkan job_id nya
+     * semua data yang berkaitan dengan keyword
+     * Jika isGetById bernilai true, maka sistem akan menampilkan data berdasarkan job_id nya
+     * @param keyword bertipe Object
+     * @param isGetById bertipe data boolean
+     * @return menampilkan hasil pencarian
      */
     public List<Job> getData(Object keyword, boolean isGetById) {
         String query;
@@ -59,11 +61,13 @@ public class JobDAO {
         return job;
     }
 
-    /**
-     * Method save ini berfungsi untuk melakukan insert dan update pada database
-     * Method ini memiliki parameter j sebagai objek dari class Job 
+     /**
+     * Fungsi digunakan untuk melakukan insert dan update pada database
      * Jika nilai isInsert bernilai false, maka sistem akan melakukan update data pada database
      * Jika nilai isInsert bernilai true, maka sistem akan melakukan insert data baru ke database
+     * @param objek J pada class Job
+     * @param isInsert bertipe data boolean
+     * @return berhasil melakukan update atau insert
      */
     public boolean save(Job j, boolean isInsert) {
         String query;
@@ -92,7 +96,8 @@ public class JobDAO {
 
     /**
      * Method delete digunakan untuk menghapus data berdasrkan job_id nya
-     * 
+     * @param id 
+     * @return berhasil melakukan delete berdasarkan Job id
      */
     public boolean delete(Job id) {
         boolean result = false;
