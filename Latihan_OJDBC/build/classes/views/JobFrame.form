@@ -119,7 +119,7 @@
                   <Component id="max" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="21" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="jLabel6" min="-2" pref="20" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -227,6 +227,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="min">
       <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="minKeyPressed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="minKeyTyped"/>
       </Events>
     </Component>
@@ -234,10 +235,15 @@
     </Component>
     <Component class="javax.swing.JTextField" name="max">
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="maxActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="maxKeyPressed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="maxKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="id">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -254,6 +260,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="cari">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cariKeyPressed"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cariKeyTyped"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

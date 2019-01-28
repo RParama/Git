@@ -65,7 +65,7 @@ public class HR extends javax.swing.JFrame {
             .addComponent(jDesktopPane1)
         );
 
-        jMenuRegion.setText("CRUD");
+        jMenuRegion.setText("Table");
         jMenuRegion.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         jMenuItem1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N

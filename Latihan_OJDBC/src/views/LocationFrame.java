@@ -60,10 +60,10 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         }
         int id = (int) model.getValueAt(i, 0);
         String street = (String) model.getValueAt(i, 1);
-        String postal = (String) model.getValueAt(i, 1);
-        String city = (String) model.getValueAt(i, 1);
-        String state = (String) model.getValueAt(i, 1);
-        String countryId = (String) model.getValueAt(i, 1);
+        String postal = (String) model.getValueAt(i, 2);
+        String city = (String) model.getValueAt(i, 3);
+        String state = (String) model.getValueAt(i, 4);
+        String countryId = (String) model.getValueAt(i, 5);
 
         jTextField1.setText(Integer.toString(id));
         jTextField2.setText(String.valueOf(street));
@@ -124,6 +124,10 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         jLabel5.setText("STATE PROVINCE");
 
         jLabel6.setText("COUNTRY ID");
+
+        jTextField1.setEditable(false);
+        int i = lcon.getMaxLocId()+100;
+        jTextField1.setText(Integer.toString(i));
 
         jButton1.setText("SEARCH");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -268,7 +272,8 @@ public class LocationFrame extends javax.swing.JInternalFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        jTextField1.setText("");
+        int i = lcon.getMaxLocId()+100;
+        jTextField1.setText(""+i);
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
@@ -293,18 +298,20 @@ public class LocationFrame extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
+        model = new DefaultTableModel();
+        locTable.setModel(model);
+        String[] colName = {"Location ID", "Street Address",
+            "Postal Code", "City", "State Province", "Country ID"};
+        for (int i = 0; i < colName.length; i++) {
+            model.addColumn(colName[i]);
+        }
 
-            model = new DefaultTableModel();
-            locTable.setModel(model);
-            String[] colName = {"Location ID", "Street Address",
-                "Postal Code", "City", "State Province", "Country ID"};
-            for (int i = 0; i < colName.length; i++) {
-                model.addColumn(colName[i]);
-            }
+        Object[] dataLoc = new Object[6];
 
-            Object[] dataLoc = new Object[6];
-
-            for (Location l : lcon.getDataById(jTextField7.getText())) {
+        if (jTextField7.getText().equals("")) {
+            loadData();
+        } else {
+            for (Location l : lcon.getDataSearch(jTextField7.getText())) {
                 dataLoc[0] = l.getLocationId();
                 dataLoc[1] = l.getStreetAddress();
                 dataLoc[2] = l.getPostalCode();
@@ -313,6 +320,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
                 dataLoc[5] = l.getCountryId();
                 model.addRow(dataLoc);
             }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

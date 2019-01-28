@@ -21,39 +21,43 @@ public class RegionDAO {
     private Connection connection;
 
     /**
-     * Method RegionDAO merupakan constructor method dari class RegionDAO
-     * yang akan dijalankan pertama kali ketika class di eksekusi
+     * Method RegionDAO merupakan constructor method dari class RegionDAO yang
+     * akan dijalankan pertama kali ketika class di eksekusi
      */
     public RegionDAO(Connection connection) {
         this.connection = connection;
     }
 
     /**
-     * Method getAll merupakan method yang digunakan untuk menampilkan data
-     * secara keseluruhan dari tabel Regions yang ada di database
+     * Method MaxRegId berfungsi untuk mengembalikan nilai id region yang paling
+     * besar dalam table regions
      */
-    public List<Region> getAll() {
-        List<Region> regions = new ArrayList<Region>();
-        String query = "SELECT * from REGIONS";
+    public int MaxRegId() {
+//        String query = "SELECT REGION_ID FROM HR.REGIONS INNER JOIN "
+//                + "(SELECT MAX(REGION_ID) AS MAX_REG FROM HR.REGIONS) reg_id ON HR.REGIONS.REGION_ID = reg_id.MAX_REG";
+        String query = "select max (region_id) +1 from regions";
+        int maxId = 0;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                regions.add(new Region(resultSet.getInt(1), resultSet.getString(2)));
+                maxId = resultSet.getInt(1);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return regions;
+        return maxId;
     }
 
     /**
-     * Method getData berfungsi untuk melakukan pencarian data yang ada pada tabel Regions
-     * berdasarkan keyword yang di inputkan
-     * Jika isGetById bernilai false, maka sistem akan menampilkan 
-     * semua data yang berhubungan dengan keyword yang di inputkan
-     * Jika isGetById bernilai true, maka sistem akan menampilkan 
-     * data regions berdasarkan region_id nya
+     * Fungsi getAll atau search byId atau byKeyword Jika string kosong dan
+     * false = getAll, jika string berisi keyword dan false = byKeyword jika int
+     * dan true = byId
+     *
+     * @param keyword data yang dicari
+     * @param isGetById jika true maka = search byId, jika false maka =
+     * berdasarkan keyword
+     * @return menampilkan list data regions
      */
     public List<Region> getData(Object keyword, boolean isGetById) {
         String query;
@@ -61,7 +65,7 @@ public class RegionDAO {
         if (!isGetById) {
             query = "SELECT REGION_ID, REGION_NAME FROM REGIONS "
                     + "WHERE REGION_ID LIKE '%" + keyword + "%' "
-                    + "OR REGION_NAME LIKE '%" + keyword + "%' ";
+                    + "OR REGION_NAME LIKE '%" + keyword + "%' ORDER BY REGION_ID";
         } else {
             query = "SELECT * FROM REGIONS WHERE REGION_ID = " + keyword;
         }
@@ -78,45 +82,13 @@ public class RegionDAO {
     }
 
     /**
-     * Method getById digunakan untuk melakukan pencarian regions berdasarkan id nya
-     * NULL
+     * Fungsi untuk melakukan insert atau update
+     *
+     * @param r merupakan object dari class Region
+     * @param isInsert jika bernilai false akan melakukan update, jika bernilai
+     * true akan melakukan insert
+     * @return insert / update berhasil
      */
-    public List<Region> getById(int id) {
-        List<Region> regions = new ArrayList<Region>();
-        String query = "SELECT * FROM REGIONS WHERE REGION_ID = " + id;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                regions.add(new Region(resultSet.getInt(1), resultSet.getString(2)));
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return regions;
-    }
-
-    public List<Region> search(String keyword) {
-        List<Region> regions = new ArrayList<Region>();
-        String keywordlower = keyword.toLowerCase();
-        String query = "SELECT REGION_ID, REGION_NAME FROM REGIONS "
-                + "WHERE REGION_ID LIKE '%" + keyword + "%' "
-                + "OR REGION_NAME LIKE '%" + keyword + "%' ";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                regions.add(new Region(resultSet.getInt(1), resultSet.getString(2)));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return regions;
-    }
-
     public boolean save(Region r, boolean isInsert) {
         String query;
         boolean result = false;
@@ -137,6 +109,12 @@ public class RegionDAO {
         return result;
     }
 
+    /**
+     * Menghapus data region berdasarkan region id
+     *
+     * @param id parameter id yang bertipe data integer
+     * @return result dari proses delete
+     */
     public boolean delete(int id) {
         boolean result = false;
         String query = "DELETE REGIONS WHERE REGION_ID = " + id;
@@ -149,5 +127,4 @@ public class RegionDAO {
         }
         return result;
     }
-
 }

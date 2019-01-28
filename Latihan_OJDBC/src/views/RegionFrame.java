@@ -6,9 +6,11 @@
 package views;
 
 import controllers.RegionController;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import tools.Connections;
 import models.Region;
+
 /**
  *
  * @author SAMSUNG
@@ -30,33 +32,45 @@ public class RegionFrame extends javax.swing.JInternalFrame {
     public void loadData() {
         model = new DefaultTableModel();
         regTable.setModel(model);
-        String[] colName = {"Region Id", "Region Name"
+        String[] colName = {"Nomor", "Region Id", "Region Name"
         };
         for (int i = 0; i < colName.length; i++) {
             model.addColumn(colName[i]);
         }
 
-        Object[] dataReg = new Object[2];
-
-        for (Region r : rcon.getDataSearch("")) {
-            dataReg[0] = r.getRegionId();
-            dataReg[1] = r.getRegionName();
+        Object[] dataReg = new Object[3];
+        int g = 1;
+        for (Region r : rcon.getRegionList()) {
+            dataReg[0] = g++;
+            dataReg[1] = r.getRegionId();
+            dataReg[2] = r.getRegionName();
             model.addRow(dataReg);
         }
+        tf_id.enable();
+    }
+
+    public void reset() {
+        tf_id.setText(rcon.getMaxRegId() + "");
+        tf_id.enable();
+        tf_nama.setText("");
+        tf_cari.setText("");
+        loadData();
+        btn_update.setText("Insert");
     }
 
     public void select() {
         int i = regTable.getSelectedRow();
-        System.out.println("" + i);
+//        System.out.println("" + i);
         if (i == -1) {
             return;
         }
-        Integer id = (Integer) model.getValueAt(i, 0);
-        String name = (String) model.getValueAt(i, 1);
+        Integer id = (Integer) model.getValueAt(i, 1);
+        String name = (String) model.getValueAt(i, 2);
 
         tf_id.setText(String.valueOf(id));
         tf_nama.setText(String.valueOf(name));
         btn_update.setText("Update");
+        tf_id.disable();
     }
 
     /**
@@ -74,17 +88,18 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@localhost:1521:XEPU").createEntityManager();
         regionsQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT r FROM Regions r");
         regionsList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : regionsQuery.getResultList();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        tf_id = new javax.swing.JTextField();
-        tf_nama = new javax.swing.JTextField();
-        btn_search = new javax.swing.JButton();
+        btn_cari = new javax.swing.JButton();
         tf_cari = new javax.swing.JTextField();
-        btn_delete = new javax.swing.JButton();
-        btn_update = new javax.swing.JButton();
-        btn_clean = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         regTable = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        tf_id = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        tf_nama = new javax.swing.JTextField();
+        btn_update = new javax.swing.JButton();
+        btn_delete = new javax.swing.JButton();
+        btn_clean = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -102,35 +117,10 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         setClosable(true);
         setTitle("REGION");
 
-        jLabel1.setText("ID");
-
-        jLabel2.setText("Nama");
-
-        btn_search.setText("Cari");
-        btn_search.addActionListener(new java.awt.event.ActionListener() {
+        btn_cari.setText("Cari");
+        btn_cari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_searchActionPerformed(evt);
-            }
-        });
-
-        btn_delete.setText("Delete");
-        btn_delete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_deleteActionPerformed(evt);
-            }
-        });
-
-        btn_update.setText("Insert");
-        btn_update.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_updateActionPerformed(evt);
-            }
-        });
-
-        btn_clean.setText("Clean");
-        btn_clean.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_cleanActionPerformed(evt);
             }
         });
 
@@ -150,60 +140,101 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         });
         jScrollPane3.setViewportView(regTable);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Details Region"));
+
+        jLabel1.setText("ID");
+
+        jLabel2.setText("Nama");
+
+        btn_update.setText("Update");
+        btn_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_updateActionPerformed(evt);
+            }
+        });
+
+        btn_delete.setText("Delete");
+        btn_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_deleteActionPerformed(evt);
+            }
+        });
+
+        btn_clean.setText("Reset");
+        btn_clean.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cleanActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btn_clean)
+                        .addGap(26, 26, 26)
+                        .addComponent(btn_update)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addComponent(btn_delete))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(tf_id)
+                            .addComponent(tf_nama))
+                        .addGap(2, 2, 2))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(tf_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(tf_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_update)
+                    .addComponent(btn_delete)
+                    .addComponent(btn_clean))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_cari)
                         .addGap(18, 18, 18)
-                        .addComponent(tf_id, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tf_nama)
-                            .addComponent(tf_cari, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btn_clean)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_update)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_delete))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(tf_cari))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(tf_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(tf_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tf_cari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_cari))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_search)
-                    .addComponent(tf_cari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_delete)
-                    .addComponent(btn_update)
-                    .addComponent(btn_clean))
-                .addGap(30, 30, 30)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(129, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -212,14 +243,17 @@ public class RegionFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
-        rcon.delete(tf_id.getText());
+        int choice = JOptionPane.showConfirmDialog(null, "Apakah ingin dihapus");
+        if (choice == JOptionPane.YES_OPTION) {
+            rcon.delete(tf_id.getText());
+            reset();
+        }
         loadData();
     }//GEN-LAST:event_btn_deleteActionPerformed
 
     private void btn_cleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cleanActionPerformed
-        tf_id.setText("");
-        tf_nama.setText("");
-        btn_update.setText("Insert");
+//        int i = rcon.getMaxRegId();
+        reset();
     }//GEN-LAST:event_btn_cleanActionPerformed
 
     private void btn_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_searchActionPerformed
@@ -231,7 +265,7 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         }
 
         Object[] dataReg = new Object[2];
-        for (Region r : rcon.getDataById(tf_cari.getText())) {
+        for (Region r : rcon.search(tf_cari.getText())) {
             dataReg[0] = r.getRegionId();
             dataReg[1] = r.getRegionName();
             model.addRow(dataReg);
@@ -246,21 +280,25 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         if (btn_update.getText() == "Insert") {
             rcon.insert(tf_id.getText(), tf_nama.getText());
             loadData();
+            JOptionPane.showMessageDialog(this, "Berhasil insert data");
         } else {
             rcon.update(tf_id.getText(), tf_nama.getText());
             loadData();
+            reset();
+            JOptionPane.showMessageDialog(this, "Berhasil update data");
         }
     }//GEN-LAST:event_btn_updateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_cari;
     private javax.swing.JButton btn_clean;
     private javax.swing.JButton btn_delete;
-    private javax.swing.JButton btn_search;
     private javax.swing.JButton btn_update;
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;

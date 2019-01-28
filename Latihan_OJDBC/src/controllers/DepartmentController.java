@@ -21,22 +21,23 @@ public class DepartmentController {
 
     Connection connection;
 
-     /**
-     * Method DepartmentController merupakan constructor method dari class DepartmentController
-     * method yang pertama kali dijalankan ketika class di eksekusi
-     * Pada method ini melakukan instansiasi objek 
-     * bernama ddao pada class DepartmentDAO untuk melakukan koneksi ke database
-     * Method DepartmentController memiliki access modifier public
+    /**
+     * Method DepartmentController merupakan constructor method dari class
+     * DepartmentController method yang pertama kali dijalankan ketika class di
+     * eksekusi Pada method ini melakukan instansiasi objek bernama ddao pada
+     * class DepartmentDAO untuk melakukan koneksi ke database Method
+     * DepartmentController memiliki access modifier public
      */
     public DepartmentController(Connection connection) {
         ddao = new DepartmentDAO(connection);
     }
-    
+
     /**
-     * Method getDepList digunakan untuk menampilkan data pada department secara keseluruhan
-     * dengan cara memanggil method getData dengan kondisi false pada class DepartmentDAO
-     * Method getDepList memiliki list bernama depList yang berfungsi untuk menyimpan hasil pencarian
-     * Method getDepList memiliki access modifier public
+     * Method getDepList digunakan untuk menampilkan data pada department secara
+     * keseluruhan dengan cara memanggil method getData dengan kondisi false
+     * pada class DepartmentDAO Method getDepList memiliki list bernama depList
+     * yang berfungsi untuk menyimpan hasil pencarian Method getDepList memiliki
+     * access modifier public
      */
     public List<String> getDepList() {
         List<String> depList = new ArrayList<String>();
@@ -54,10 +55,11 @@ public class DepartmentController {
     }
 
     /**
-     * Method getDataById digunakan untuk melakukan pencarian data pada departments berasarkan id
-     * dengan cara memanggil method getData dengan kondisi true pada class DepartmentDAO
-     * Method getDataById memiliki list bernama departments yang berfungsi untuk menyimpan hasil pencarian
-     * Method getDataById memiliki access modifier public
+     * Method getDataById digunakan untuk melakukan pencarian data pada
+     * departments berasarkan id dengan cara memanggil method getData dengan
+     * kondisi true pada class DepartmentDAO Method getDataById memiliki list
+     * bernama departments yang berfungsi untuk menyimpan hasil pencarian Method
+     * getDataById memiliki access modifier public
      */
     public List<Department> getDataById(String id) {
         List<Department> departments = new ArrayList<Department>();
@@ -71,11 +73,12 @@ public class DepartmentController {
     }
 
     /**
-     * Method getDataSearch digunakan untuk melakukan pencarian data 
-     * pada departments sesuai dengan keyword yang di inputkan
-     * dengan cara memanggil method getData dengan kondisi false pada class DepartmentDAO
-     * Method getDataSearch memiliki list bernama departments yang berfungsi untuk menyimpan hasil pencarian
-     * Method getDataSearch memiliki access modifier public
+     * Method getDataSearch digunakan untuk melakukan pencarian data pada
+     * departments sesuai dengan keyword yang di inputkan dengan cara memanggil
+     * method getData dengan kondisi false pada class DepartmentDAO Method
+     * getDataSearch memiliki list bernama departments yang berfungsi untuk
+     * menyimpan hasil pencarian Method getDataSearch memiliki access modifier
+     * public
      */
     public List<Department> getDataSearch(Object k) {
         List<Department> departments = new ArrayList<Department>();
@@ -87,11 +90,11 @@ public class DepartmentController {
         return departments;
     }
 
-     /**
+    /**
      * Method insert digunakan untuk melakukan insert data baru ke database
-     * dengan cara memanggil method save dengan kondisi true pada class DepartmentDAO
-     * Method insert memiliki parameter departmentId, departmentName, 
-     * managerId dan locationId yang memiliki tipe data string
+     * dengan cara memanggil method save dengan kondisi true pada class
+     * DepartmentDAO Method insert memiliki parameter departmentId,
+     * departmentName, managerId dan locationId yang memiliki tipe data string
      * Method insert memiliki access modifier public
      */
     public boolean insert(String departmentId, String departmentName,
@@ -109,11 +112,11 @@ public class DepartmentController {
         return result;
     }
 
-     /**
+    /**
      * Method update digunakan untuk melakukan update data baru ke database
-     * dengan cara memanggil method save dengan kondisi false pada class DepartmentDAO
-     * Method update memiliki parameter departmentId, departmentName, 
-     * managerId dan locationId yang memiliki tipe data string
+     * dengan cara memanggil method save dengan kondisi false pada class
+     * DepartmentDAO Method update memiliki parameter departmentId,
+     * departmentName, managerId dan locationId yang memiliki tipe data string
      * Method update memiliki access modifier public
      */
     public boolean update(String departmentId, String departmentName,
@@ -131,11 +134,11 @@ public class DepartmentController {
         return result;
     }
 
-     /**
-     * Method delete digunakan untuk menghapus department berdasarkan department id
-     * dengan cara memanggil method delete pada class DepartmentDAO
-     * Method delete memiliki parameter departmentId bertipe data string
-     * Method delete memiliki access modifier public
+    /**
+     * Method delete digunakan untuk menghapus department berdasarkan department
+     * id dengan cara memanggil method delete pada class DepartmentDAO Method
+     * delete memiliki parameter departmentId bertipe data string Method delete
+     * memiliki access modifier public
      */
     public boolean delete(String departmentId) {
         boolean result = false;
@@ -147,6 +150,11 @@ public class DepartmentController {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public int getMaxDepId() {
+        int depId = ddao.MaxDepId();
+        return depId;
     }
 
 }

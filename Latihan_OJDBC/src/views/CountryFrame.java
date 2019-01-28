@@ -43,6 +43,7 @@ public class CountryFrame extends javax.swing.JInternalFrame {
             dat[2] = c.getRegionId();
             model.addRow(dat);
         }
+        TF_CountryId.enable();
     }
     
     public void select() {
@@ -59,6 +60,7 @@ public class CountryFrame extends javax.swing.JInternalFrame {
         TF_CountryName.setText(String.valueOf(names));
         TF_RegionId.setText(Integer.toString(idis));
         Btn_Edit.setText("Edit");
+        TF_CountryId.disable();
 
     }
     
@@ -66,6 +68,8 @@ public class CountryFrame extends javax.swing.JInternalFrame {
         TF_CountryId.setText("");
         TF_CountryName.setText("");
         TF_RegionId.setText("");
+        TF_Search.setText("");
+        TF_CountryId.enable();
     }
 
     /**
@@ -123,7 +127,7 @@ public class CountryFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        Btn_Edit.setText("Edit");
+        Btn_Edit.setText("Update");
         Btn_Edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Btn_EditActionPerformed(evt);
@@ -179,8 +183,8 @@ public class CountryFrame extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(Btn_Insert)
                                 .addGap(18, 18, 18)
-                                .addComponent(Btn_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addComponent(Btn_Edit)
+                                .addGap(12, 12, 12)
                                 .addComponent(Btn_Delete))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,7 +230,7 @@ public class CountryFrame extends javax.swing.JInternalFrame {
                     .addComponent(reset))
                 .addGap(48, 48, 48)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();

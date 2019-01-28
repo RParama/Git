@@ -7,7 +7,6 @@ package views;
 
 import controllers.JobController;
 import java.awt.event.KeyEvent;
-
 import java.sql.Connection;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
