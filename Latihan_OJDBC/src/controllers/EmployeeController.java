@@ -24,6 +24,12 @@ public class EmployeeController {
     public EmployeeController(Connection connection) {
         edao = new EmployeeDAO(connection);
     }
+	
+	
+	public int getMaxEmpId(){
+        int empId = edao.MaxEmpId();
+        return empId;
+    }
 
     public List<String> getManagerId() {
         List<String> manager = new ArrayList<String>();
