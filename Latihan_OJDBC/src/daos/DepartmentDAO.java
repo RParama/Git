@@ -19,23 +19,22 @@ import models.Department;
 public class DepartmentDAO {
      private Connection connection;
 
+     /**
+     * Fungsi untuk melakukan koneksi ke database
+     * @param objek connection dari class Connection
+     */
     public DepartmentDAO(Connection connection) {
         this.connection = connection;
     }
 
-    /**
-     * >Select all: jika string kosong "" dan boolean false, ex: ("",false)
-     *
-     * >Select id: jika int dan boolean true ataupun false, ex: (1,true) atau
-     * (1,false) >Select id: jika String dan boolean true ataupun false, ex:
-     * ("1",true/false)
-     *
-     * >Select keyword: jika string dimasukan keyword dan boolean false, ex:
-     * ("a",false)
-     *
-     * > kesimpulan: (n, true) hanya digunakan untuk mencari id
-     *
-     * >Parameter Object keyword dapat menyesuaikan type data (int/String)
+     /**
+     * Fungsi digunakan untuk melakukan pencarian data berdasarkan keyword yang di inputkan
+     * Jika isGetById bernilai false, maka sistem akan menampilkan 
+     * semua data yang berkaitan dengan keyword
+     * Jika isGetById bernilai true, maka sistem akan menampilkan data berdasarkan department_id nya
+     * @param keyword bertipe Object
+     * @param isGetById bertipe data boolean
+     * @return menampilkan hasil pencarian
      */
     public List<Department> getData(Object keyword, boolean isGetById) {
         String query;
@@ -63,10 +62,13 @@ public class DepartmentDAO {
         return departments;
     }
 
-    /**
-     * >save merupakan gabungan dari insert dan update >Jika (n,true) maka akan
-     * berfungsi sebagai insert >Jika (n,false) maka akan berfungsi sebagai
-     * update
+     /**
+     * Fungsi digunakan untuk melakukan insert dan update pada database
+     * Jika nilai isInsert bernilai false, maka sistem akan melakukan update data 
+     * Jika nilai isInsert bernilai true, maka sistem akan melakukan insert data 
+     * @param objek d pada class Department
+     * @param isInsert bertipe data boolean
+     * @return berhasil melakukan update atau insert
      */
     public boolean save(Department d, boolean isInsert) {
         String query;
@@ -94,10 +96,10 @@ public class DepartmentDAO {
         return result;
     }
 
-     /**
-     * Method delete digunakan untuk menghapus data department berdasarkan id department
-     * Memiliki parameter id dengan tipe data integer 
-     * yang digunakan untuk menghapus department id yang ada di database
+    /**
+     * Method delete digunakan untuk menghapus data berdasrkan department_id nya
+     * @param id bertipe data integer
+     * @return berhasil melakukan delete berdasarkan department_id
      */
     public boolean delete(int id) {
         boolean result = false;
@@ -116,6 +118,7 @@ public class DepartmentDAO {
         /**
      * Method MaxEmpId berfungsi untuk mengembalikan nilai id employee yang
      * paling besar dalam table employee
+     * @return mengambil nilai terbesar
      */
     public int MaxDepId() {
         String query = "SELECT DEPARTMENT_ID"
