@@ -86,6 +86,25 @@ public class JobFrame extends javax.swing.JInternalFrame {
         id.setEditable(true);
     }
 
+    public void search() {
+        model = new DefaultTableModel();
+        tableJob.setModel(model);
+        model.addColumn("JOB ID");
+        model.addColumn("JOB TITLE");
+        model.addColumn("MIN SALARY");
+        model.addColumn("MAX SALARY");
+
+        Object[] dat = new Object[4];
+
+        for (Job r : jcon.getById(cari.getText())) {
+            dat[0] = r.getJobId();
+            dat[1] = r.getJobTitle();
+            dat[2] = r.getMinSalary();
+            dat[3] = r.getMaxSalary();
+            model.addRow(dat);
+        }
+    }
+
     public void typecheck(JTextField txtfield, JLabel label) {
         try {
             int i = Integer.parseInt(txtfield.getText());
@@ -241,6 +260,15 @@ public class JobFrame extends javax.swing.JInternalFrame {
 
         jLabel6.setForeground(new java.awt.Color(204, 0, 0));
 
+        cari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cariKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cariKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -363,23 +391,7 @@ public class JobFrame extends javax.swing.JInternalFrame {
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         // TODO add your handling code here:
-
-        model = new DefaultTableModel();
-        tableJob.setModel(model);
-        model.addColumn("JOB ID");
-        model.addColumn("JOB TITLE");
-        model.addColumn("MIN SALARY");
-        model.addColumn("MAX SALARY");
-
-        Object[] dat = new Object[4];
-
-        for (Job r : jcon.getById(cari.getText())) {
-            dat[0] = r.getJobId();
-            dat[1] = r.getJobTitle();
-            dat[2] = r.getMinSalary();
-            dat[3] = r.getMaxSalary();
-            model.addRow(dat);
-        }
+        search();
     }//GEN-LAST:event_searchActionPerformed
 
     private void minKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_minKeyPressed
@@ -395,6 +407,15 @@ public class JobFrame extends javax.swing.JInternalFrame {
     private void maxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_maxActionPerformed
+
+    private void cariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cariKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cariKeyPressed
+
+    private void cariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cariKeyTyped
+        // TODO add your handling code here:
+        search();
+    }//GEN-LAST:event_cariKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
