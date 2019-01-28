@@ -231,7 +231,7 @@ public class RegionFrame extends javax.swing.JInternalFrame {
         }
 
         Object[] dataReg = new Object[2];
-        for (Region r : rcon.getDataById(tf_id.getText())) {
+        for (Region r : rcon.getDataById(tf_cari.getText())) {
             dataReg[0] = r.getRegionId();
             dataReg[1] = r.getRegionName();
             model.addRow(dataReg);
