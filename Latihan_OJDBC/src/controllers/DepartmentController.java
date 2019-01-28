@@ -7,7 +7,6 @@ package controllers;
 
 import daos.DepartmentDAO;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 import models.Department;
 
@@ -21,131 +20,91 @@ public class DepartmentController {
 
     Connection connection;
 
-     /**
-     * Fungsi untuk melakukan koneksi ke database
-     * @param objek connection dari class Connection
+    /**
+     * Method DepartmentController merupakan constructor method dari class
+     * DepartmentController method yang pertama kali dijalankan ketika class di
+     * eksekusi Pada method ini melakukan instansiasi objek bernama ddao pada
+     * class DepartmentDAO untuk melakukan koneksi ke database Method
+     * DepartmentController memiliki access modifier public
      */
     public DepartmentController(Connection connection) {
         ddao = new DepartmentDAO(connection);
     }
 
-     /**
-     * Fungsi untuk melakukan menampilkan data keseluruhan
-     * @return data department 
+    /**
+     * Berfungsi memanggil fungsi dari DepartmentDAO untuk mendapatkan ID
+     * terbesar Digunakan untuk auto increment ID
+     *
+     * @return mengembalikan nilai ID yang telah diincrement
      */
-    public List<String> getDepList() {
-        List<String> depList = new ArrayList<String>();
-        boolean result = false;
-        try {
-            for (Department department : ddao.getData("", false)) {
-                depList.add(department.getDepartmentName());
-            }
-
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return depList;
-    }
-    
-     /**
-     * Fungsi untuk melakukan pencarian data dengan String id
-     * Memanggil method getData dengan kondisi true pada class DepartmentDAO
-     * @param id data yang dicari
-     * @return menampilkan data yang di cari berdasarkan id
-     */
-    public List<Department> getDataById(String id) {
-        List<Department> departments = new ArrayList<Department>();
-        try {
-            int idINT = new Integer(id);
-            departments = ddao.getData(idINT, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return departments;
-    }
-    
-     /**
-     * Fungsi untuk melakukan pencarian data sesuai dengan keyword 
-     * Memanggil method getData dengan kondisi false pada class DepartmentDAO
-     * @param k bertipe Object
-     * @return menampilkan data yang di cari
-     */
-    public List<Department> getDataSearch(Object k) {
-        List<Department> departments = new ArrayList<Department>();
-        try {
-            departments = ddao.getData(k, false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return departments;
+    public int getMaxDepId() {
+        return ddao.MaxDepId();
     }
 
-     /**
-     * Fungsi untuk melakukan insert data
-     * Memanggil method save dengan kondisi true pada class DepartmentDAO
-     * @param departmentId bertipe data String
-     * @param departmentName bertipe data String
-     * @return berhasil melakukan insert data
+    /**
+     * Fungsi getAll
+     *
+     * @return menampilkan data
+     */
+    public List<Department> getDepartmentList() {
+        return ddao.getData("", false);
+    }
+
+    /**
+     * Fungsi untuk get data by id
+     *
+     * @param id tipe data integer
+     * @return menampilkan hasil pencarian
+     */
+    public Department getById(String id) {
+        return ddao.getData(new Integer(id), true).get(0);
+    }
+
+    /**
+     * Method getDataSearch digunakan untuk melakukan pencarian data pada
+     * departments sesuai dengan keyword yang di inputkan dengan cara memanggil
+     * method getData dengan kondisi false pada class DepartmentDAO Method
+     * getDataSearch memiliki list bernama departments yang berfungsi untuk
+     * menyimpan hasil pencarian Method getDataSearch memiliki access modifier
+     * public
+     */
+    public List<Department> search(Object k) {
+        return ddao.getData(k, false);
+    }
+
+    /**
+     * Method insert digunakan untuk melakukan insert data baru ke database
+     * dengan cara memanggil method save dengan kondisi true pada class
+     * DepartmentDAO Method insert memiliki parameter departmentId,
+     * departmentName, managerId dan locationId yang memiliki tipe data string
+     * Method insert memiliki access modifier public
      */
     public boolean insert(String departmentId, String departmentName,
             String managerId, String locationId) {
-        boolean result = false;
-        try {
-            int idDeptINT = new Integer(departmentId); //casting String id menjadi int
-            int idManagINT = new Integer(managerId); //casting String id menjadi int
-            int idLocINT = new Integer(locationId); //casting String id menjadi int
-            ddao.save(new Department(idDeptINT, departmentName, idManagINT, idLocINT), true); //save(region,true) = insert
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+        return ddao.save(new Department(new Integer(departmentId),
+                departmentName, new Integer(managerId), new Integer(locationId)), true); //save(region,true) = insert
     }
 
-     /**
-     * Fungsi untuk melakukan update data
-     * Memanggil method save dengan kondisi false pada class DepartmentDAO
-     * @param departmentId bertipe data String
-     * @param departmentName bertipe data String
-     * @return berhasil melakukan update data
+    /**
+     * Method update digunakan untuk melakukan update data baru ke database
+     * dengan cara memanggil method save dengan kondisi false pada class
+     * DepartmentDAO Method update memiliki parameter departmentId,
+     * departmentName, managerId dan locationId yang memiliki tipe data string
+     * Method update memiliki access modifier public
      */
     public boolean update(String departmentId, String departmentName,
             String managerId, String locationId) {
-        boolean result = false;
-        try {
-            int idDeptINT = new Integer(departmentId); //casting String id menjadi int
-            int idManagINT = new Integer(managerId); //casting String id menjadi int
-            int idLocINT = new Integer(locationId); //casting String id menjadi int
-            ddao.save(new Department(idDeptINT, departmentName, idManagINT, idLocINT), false); //save(region,false) = update
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+        return ddao.save(new Department(new Integer(departmentId),
+                departmentName, new Integer(managerId), new Integer(locationId)), false); //save(region,false) = update
     }
-    
-     /**
-     * Fungsi untuk melakukan hapus data berdasarkan departmentId
-     * Memanggil method delete dengan parameter id pada class DepartmentDAO
-     * @param departmentId bertipe data String
-     * @return berhasil melakukan hapus data berdasarkan id
+
+    /**
+     * Method delete digunakan untuk menghapus department berdasarkan department
+     * id dengan cara memanggil method delete pada class DepartmentDAO Method
+     * delete memiliki parameter departmentId bertipe data string Method delete
+     * memiliki access modifier public
      */
     public boolean delete(String departmentId) {
-        boolean result = false;
-        try {
-            int idINT = new Integer(departmentId); //casting String id menjadi int
-            ddao.delete(idINT); //delete
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+        return ddao.delete(new Integer(departmentId));
     }
-
-    public int getMaxDepId() {
-        int depId = ddao.MaxDepId();
-        return depId;
-    }
-
 }

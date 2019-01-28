@@ -20,27 +20,41 @@ public class LocationDAO {
 
     private Connection connection;
 
-     /**
-     * Fungsi untuk melakukan koneksi ke database
-     * @param objek connection dari class Connection
+    /**
+     * Method LocationDAO merupakan constructor method dari class LocationDAO
      */
     public LocationDAO(Connection connection) {
         this.connection = connection;
     }
 
     /**
-     * >Select all: jika string kosong "" dan boolean false, ex: ("",false)
+     * Method MaxLocId berfungsi untuk mengembalikan nilai id Locations yang
+     * paling besar dalam table Locations
+     */
+    public int MaxLocId() {
+        String query = "select max (location_id) +100 from locations";
+        int maxId = 0;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                maxId = resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maxId;
+    }
+
+    /**
+     * Fungsi getAll atau search byId atau byKeyword. Jika string kosong dan
+     * false = getAll. Jika string berisi keyword dan false = byKeyword. Jika
+     * int dan true = byId
      *
-     * >Select id: jika int dan boolean true ataupun false, ex: (1,true) atau
-     * (1,false) >Select id: jika String dan boolean true ataupun false, ex:
-     * ("1",true/false)
-     *
-     * >Select keyword: jika string dimasukan keyword dan boolean false, ex:
-     * ("a",false)
-     *
-     * > kesimpulan: (n, true) hanya digunakan untuk mencari id
-     *
-     * >Parameter Object keyword dapat menyesuaikan type data (int/String)
+     * @param keyword data yang dicari
+     * @param isGetById jika true maka = search byId, jika false maka =
+     * berdasarkan keyword
+     * @return menampilkan list data Locations
      */
     public List<Location> getData(Object keyword, boolean isGetById) {
         String query;
@@ -52,7 +66,7 @@ public class LocationDAO {
                     + "OR POSTAL_CODE LIKE '%" + keyword + "%' "
                     + "OR CITY LIKE '%" + keyword + "%' "
                     + "OR STATE_PROVINCE LIKE '%" + keyword + "%' "
-                    + "OR COUNTRY_ID LIKE '%" + keyword + "%' ";
+                    + "OR COUNTRY_ID LIKE '%" + keyword + "%' ORDER BY LOCATION_ID ";
 
         } else {
             query = "SELECT * FROM LOCATIONS WHERE LOCATION_ID = " + keyword;
@@ -71,11 +85,12 @@ public class LocationDAO {
     }
 
     /**
-     * Method save merupakan gabungan dari insert dan update >Jika (n,true) maka akan
-     * berfungsi sebagai insert >Jika (n,false) maka akan berfungsi sebagai update
-     * @param l objek dari class Location
-     * @param isInsert bertipe data boolean
-     * @return berhasil melakukan insert atau update
+     * Fungsi untuk melakukan insert atau update
+     *
+     * @param r merupakan object dari class Location
+     * @param isInsert jika bernilai false akan melakukan update, jika bernilai
+     * true akan melakukan insert
+     * @return insert / update berhasil
      */
     public boolean save(Location l, boolean isInsert) {
         String query;
@@ -106,9 +121,10 @@ public class LocationDAO {
     }
 
     /**
-     * Method delete berfungsi untuk menghapus location berdasarkan location_id nya
-     * @param id bertipe data integer
-     * @return berhasil menghapus berdasarkan id
+     * Menghapus data Locations berdasarkan location_id
+     *
+     * @param id parameter id yang bertipe data integer
+     * @return result dari proses delete
      */
     public boolean delete(int id) {
         boolean result = false;
@@ -122,26 +138,5 @@ public class LocationDAO {
         }
 
         return result;
-    }
-    
-    /**
-     * Fungsi untuk mengambil nilai max
-     * @return mengembalikkan nilai max
-     */
-    public int MaxLocId() {
-        String query = "SELECT LOCATION_ID"
-                + " FROM LOCATIONS INNER JOIN (SELECT MAX(LOCATION_ID) AS MAX_LOC"
-                + " FROM LOCATIONS) loc_id ON LOCATIONS.LOCATION_ID = loc_id.MAX_LOC";
-        int maxId = 0;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                maxId = resultSet.getInt(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return maxId;
     }
 }

@@ -19,22 +19,38 @@ import models.Department;
 public class DepartmentDAO {
      private Connection connection;
 
-     /**
-     * Fungsi untuk melakukan koneksi ke database
-     * @param objek connection dari class Connection
-     */
     public DepartmentDAO(Connection connection) {
         this.connection = connection;
     }
+    
+    /**
+     * Method MaxLocId berfungsi untuk mengembalikan nilai id Departments yang
+     * paling besar dalam table Departments
+     */
+    public int MaxDepId() {
+        String query = "select max (department_id) +10 from departments";
+        int maxId = 0;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                maxId = resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maxId;
+    }
 
-     /**
-     * Fungsi digunakan untuk melakukan pencarian data berdasarkan keyword yang di inputkan
-     * Jika isGetById bernilai false, maka sistem akan menampilkan 
-     * semua data yang berkaitan dengan keyword
-     * Jika isGetById bernilai true, maka sistem akan menampilkan data berdasarkan department_id nya
-     * @param keyword bertipe Object
-     * @param isGetById bertipe data boolean
-     * @return menampilkan hasil pencarian
+    /**
+     * Fungsi getAll atau search byId atau byKeyword. Jika string kosong dan
+     * false = getAll. Jika string berisi keyword dan false = byKeyword. Jika
+     * int dan true = byId
+     *
+     * @param keyword data yang dicari
+     * @param isGetById jika true maka = search byId, jika false maka =
+     * berdasarkan keyword
+     * @return menampilkan list data Departments
      */
     public List<Department> getData(Object keyword, boolean isGetById) {
         String query;
@@ -44,7 +60,7 @@ public class DepartmentDAO {
                     + "WHERE DEPARTMENT_ID LIKE '%" + keyword + "%' "
                     + "OR DEPARTMENT_NAME LIKE '%" + keyword + "%' "
                     + "OR MANAGER_ID LIKE '%" + keyword + "%' "
-                    + "OR LOCATION_ID LIKE '%" + keyword + "%' ";
+                    + "OR LOCATION_ID LIKE '%" + keyword + "%' ORDER BY DEPARTMENT_ID ";
 
         } else {
             query = "SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_ID = " + keyword;
@@ -62,13 +78,13 @@ public class DepartmentDAO {
         return departments;
     }
 
-     /**
-     * Fungsi digunakan untuk melakukan insert dan update pada database
-     * Jika nilai isInsert bernilai false, maka sistem akan melakukan update data 
-     * Jika nilai isInsert bernilai true, maka sistem akan melakukan insert data 
-     * @param objek d pada class Department
-     * @param isInsert bertipe data boolean
-     * @return berhasil melakukan update atau insert
+    /**
+     * Fungsi untuk melakukan insert atau update
+     *
+     * @param r merupakan object dari class Department
+     * @param isInsert jika bernilai false akan melakukan update, jika bernilai
+     * true akan melakukan insert
+     * @return insert / update berhasil
      */
     public boolean save(Department d, boolean isInsert) {
         String query;
@@ -97,9 +113,10 @@ public class DepartmentDAO {
     }
 
     /**
-     * Method delete digunakan untuk menghapus data berdasrkan department_id nya
-     * @param id bertipe data integer
-     * @return berhasil melakukan delete berdasarkan department_id
+     * Menghapus data Departments berdasarkan department_id
+     *
+     * @param id parameter id yang bertipe data integer
+     * @return result dari proses delete
      */
     public boolean delete(int id) {
         boolean result = false;
@@ -115,25 +132,4 @@ public class DepartmentDAO {
         return result;
     }
     
-        /**
-     * Method MaxEmpId berfungsi untuk mengembalikan nilai id employee yang
-     * paling besar dalam table employee
-     * @return mengambil nilai terbesar
-     */
-    public int MaxDepId() {
-        String query = "SELECT DEPARTMENT_ID"
-                + " FROM DEPARTMENTS INNER JOIN (SELECT MAX(DEPARTMENT_ID) AS MAX_DEP"
-                + " FROM DEPARTMENTS) dep_id ON DEPARTMENTS.DEPARTMENT_ID = dep_id.MAX_DEP";
-        int maxId = 0;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                maxId = resultSet.getInt(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return maxId;
-    }
 }

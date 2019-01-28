@@ -255,7 +255,7 @@ public class CountryFrame extends javax.swing.JInternalFrame {
 
         Object[] dat = new Object[3];
 
-        for (Countries c : jcon.getDataById(TF_Search.getText())) {
+        for (Countries c : jcon.getDataSearch(TF_Search.getText())) {
             dat[0] = c.getCountryId();
             dat[1] = c.getCountryName();
             dat[2] = c.getRegionId();

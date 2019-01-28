@@ -21,18 +21,22 @@ public class CountrieDAO {
 
     private Connection connection;
     
-     /**
-     * Fungsi untuk melakukan koneksi ke database
-     * @param objek connection dari class Connection
+    /**
+     * Method CountriesDAO merupakan constructor method dari class CountriesDAO 
+     * yang berfungsi untuk melakukan koneksi dengan menggunakan parameter Connection 
      */
     public CountrieDAO(Connection connection) {
         this.connection = connection;
     }
 
     /**
-     * Fungsi digunakan untuk menampilkan data keseluruhan dari tabel countries
-     * List cs digunakan untuk menampung hasil
-     * @return menampilkan data keseluruhan
+     * Method getAll digunakan untuk menampilkan semua data yang ada pada tabel countries (id, name dan region id)
+     * Membuat sebuah list yang berfungsi untuk menampung hasil dengan nama "cs"
+     * Mengambil data dengan perintah query yang disimpan pada variable query
+     * Menyiapkan query yang akan dieksekusi (connection.prepareStatement(query))
+     * Melakkan eksekusi query (preparedStatement.executeQuery())
+     * Membuat sebuah objek yang bernama "r" dari class Countries yang akan memanggil method yang ada di class Countries
+     * Output berupa list yang berisi data yang telah ditambahkan di dalam list (region id, country name dan region id)
      */
     public List<Countries> getAll() {
         List<Countries> cs = new ArrayList<>();
@@ -54,13 +58,10 @@ public class CountrieDAO {
     }
 
     /**
-     * Fungsi digunakan untuk melakukan pencarian data berdasarkan keyword yang di inputkan
-     * Jika z bernilai false, maka sistem akan menampilkan 
-     * semua data yang berkaitan dengan keyword
-     * Jika z bernilai true, maka sistem akan menampilkan data berdasarkan country_id nya
-     * @param keyword bertipe Object
-     * @param z bertipe data boolean
-     * @return menampilkan hasil pencarian
+     * Method getData digunakan untuk menampilkan data bedasarkan keyword yang di inputkan
+     * Membuat list yang diberinama "cs" untuk menampung hasil pencarian
+     * Jika data yang di inputkan bernilai false, maka akan menampilkan hasil semua yang mengandung karakter pada keyword yang di inputkan
+     * Apabila data yang di inputkan bernilai true, maka akan menampilkan berdasarkan id yang di cari
      */
     public List<Countries> getData(Object keyword, boolean z) {
         String query;
@@ -86,13 +87,12 @@ public class CountrieDAO {
         return cs;
     }
 
-     /**
-     * Fungsi digunakan untuk melakukan insert dan update pada database
-     * Jika nilai z bernilai false, maka sistem akan melakukan update data pada database
-     * Jika nilai z bernilai true, maka sistem akan melakukan insert data baru ke database
-     * @param objek r pada class Countries
-     * @param z bertipe data boolean
-     * @return berhasil melakukan update atau insert
+    /**
+     * Method save digunakan untuk melakukan update dan insert data baru
+     * Method ini memiliki parameter r objek dari class Countries
+     * Apabila data yang di intutkan bernilai false, maka akan melakukan update ke database
+     * Apabila data yang di inputkan bernilai false, maka akan melakukan insert data baru
+     *
      */
     public boolean save(Countries r, boolean z) {
         boolean result = false;
@@ -132,11 +132,10 @@ public class CountrieDAO {
             e.printStackTrace();
         }
     }
-   
-     /**
-     * Method delete digunakan untuk menghapus data berdasrkan country_id nya
-     * @param id bertipe data String
-     * @return berhasil melakukan delete berdasarkan country_id
+    /**
+     * Method delete berfunngsi untuk menghapus data countries pada database
+     * Method ini memiliki parameter objek r dari class Countries
+     * Method ini akan menghapus data dari database berdasarkan country id nya
      */
     public boolean delete(String id) {
         boolean result = false;
