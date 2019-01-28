@@ -9,6 +9,8 @@ import controllers.JobController;
 import java.awt.event.KeyEvent;
 
 import java.sql.Connection;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import models.Job;
 import tools.Connections;
@@ -18,80 +20,89 @@ import tools.Connections;
  * @author vivian
  */
 public class JobFrame extends javax.swing.JInternalFrame {
-    
-    
-  
+
     private DefaultTableModel model;
     Connections connections = new Connections();
     JobController jcon = new JobController(connections.getConnection());
+
     /**
      * Creates new form JobForm
      */
     public JobFrame() {
         initComponents();
         loadData();
-     
+
     }
-    
-    public void loadData(){
-        model=new DefaultTableModel();
+
+    public void loadData() {
+        id.setEditable(true);
+        model = new DefaultTableModel();
         tableJob.setModel(model);
         model.addColumn("JOB ID");
         model.addColumn("JOB TITLE");
         model.addColumn("MIN SALARY");
         model.addColumn("MAX SALARY");
-        
-         Object[] dat=new Object[4];
-        
-        
-         for (Job r : jcon.getData()) {
-            dat[0]=r.getJobId();
-            dat[1]=r.getJobTitle();
-            dat[2]=r.getMinSalary();
-            dat[3]=r.getMaxSalary();
+
+        Object[] dat = new Object[4];
+
+        for (Job r : jcon.getData()) {
+            dat[0] = r.getJobId();
+            dat[1] = r.getJobTitle();
+            dat[2] = r.getMinSalary();
+            dat[3] = r.getMaxSalary();
             model.addRow(dat);
         }
-        
-       
+
     }
-    
-    public void select(){    
-    int i=tableJob.getSelectedRow();
-        System.out.println(""+i);
-        if(i==-1)
-        {
+
+    public void select() {
+        int i = tableJob.getSelectedRow();
+        System.out.println("" + i);
+        if (i == -1) {
             return;
         }
-        String ids=(String)model.getValueAt(i, 0);
-         String titles=(String)model.getValueAt(i, 1);
-         int mins=(int)model.getValueAt(i, 2);
-         int maxs=(int)model.getValueAt(i, 3);
-         
+        String ids = (String) model.getValueAt(i, 0);
+        String titles = (String) model.getValueAt(i, 1);
+        int mins = (int) model.getValueAt(i, 2);
+        int maxs = (int) model.getValueAt(i, 3);
+
         id.setText(String.valueOf(ids));
         title.setText(String.valueOf(titles));
         min.setText(Integer.toString(mins));
         max.setText(Integer.toString(maxs));
         insUp.setText("UPDATE");
-    
-}
-   
-    
-    public void reset(){
+        id.setEditable(false);
+
+    }
+
+    public void reset() {
         id.setText("");
         title.setText("");
         min.setText("");
         max.setText("");
+        insUp.setText("INSERT");
+        jLabel5.setText("");
+        jLabel6.setText("");
+        id.setEditable(true);
     }
-    
+
+    public void typecheck(JTextField txtfield, JLabel label) {
+        try {
+            int i = Integer.parseInt(txtfield.getText());
+            label.setText("");
+        } catch (NumberFormatException e) {
+            label.setText("Invalid Number!");
+        }
+    }
+
     public static void main(String[] args) {
-         java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new JobFrame().setVisible(true);
-                
-                
+
             }
         });
-    
+
     }
 
     /**
@@ -202,16 +213,29 @@ public class JobFrame extends javax.swing.JInternalFrame {
         jLabel4.setText("Minimum Salary ");
 
         min.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                minKeyPressed(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 minKeyTyped(evt);
             }
         });
 
+        max.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                maxActionPerformed(evt);
+            }
+        });
         max.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                maxKeyPressed(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 maxKeyTyped(evt);
             }
         });
+
+        id.setEditable(false);
 
         jLabel5.setForeground(new java.awt.Color(204, 0, 0));
 
@@ -272,7 +296,7 @@ public class JobFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(max, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -305,34 +329,29 @@ public class JobFrame extends javax.swing.JInternalFrame {
 
     private void minKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_minKeyTyped
         // TODO add your handling code here:
-        char vChar = evt.getKeyChar();
-                    if (!(Character.isDigit(vChar)
-                            || (vChar == KeyEvent.VK_BACK_SPACE)
-                            || (vChar == KeyEvent.VK_DELETE))) {
-                        evt.consume();
-                        jLabel5.setText("Number Only!");
-                    }
+        typecheck(min, jLabel5);
+//        char vChar = evt.getKeyChar();
+//                    if (!(Character.isDigit(vChar)
+//                            || (vChar == KeyEvent.VK_BACK_SPACE)
+//                            || (vChar == KeyEvent.VK_DELETE))) {
+//                        evt.consume();
+//                        jLabel5.setText("Number Only!");
+//                    }
     }//GEN-LAST:event_minKeyTyped
 
     private void maxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_maxKeyTyped
         // TODO add your handling code here:
-            char vChar = evt.getKeyChar();
-                    if (!(Character.isDigit(vChar)
-                            || (vChar == KeyEvent.VK_BACK_SPACE)
-                            || (vChar == KeyEvent.VK_DELETE))) {
-                        evt.consume();
-                        jLabel6.setText("Number Only!");
-                    }
+        typecheck(max, jLabel6);
     }//GEN-LAST:event_maxKeyTyped
 
     private void insUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insUpActionPerformed
         // TODO add your handling code here:
-        if(insUp.getText()== "INSERT"){
-        jcon.insert(id.getText(),title.getText(), Integer.parseInt(min.getText()),Integer.parseInt(max.getText()));
-        loadData();
-        }else{
-        jcon.update(id.getText(), title.getText(), Integer.parseInt(min.getText()),Integer.parseInt(max.getText()));
-        loadData();
+        if (insUp.getText() == "INSERT") {
+            jcon.insert(id.getText(), title.getText(), Integer.parseInt(min.getText()), Integer.parseInt(max.getText()));
+            loadData();
+        } else {
+            jcon.update(id.getText(), title.getText(), Integer.parseInt(min.getText()), Integer.parseInt(max.getText()));
+            loadData();
         }
     }//GEN-LAST:event_insUpActionPerformed
 
@@ -344,25 +363,38 @@ public class JobFrame extends javax.swing.JInternalFrame {
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         // TODO add your handling code here:
-      
-         model=new DefaultTableModel();
+
+        model = new DefaultTableModel();
         tableJob.setModel(model);
         model.addColumn("JOB ID");
         model.addColumn("JOB TITLE");
         model.addColumn("MIN SALARY");
         model.addColumn("MAX SALARY");
-        
-         Object[] dat=new Object[4];
-        
-        
-         for (Job r : jcon.getById(cari.getText())) {
-            dat[0]=r.getJobId();
-            dat[1]=r.getJobTitle();
-            dat[2]=r.getMinSalary();
-            dat[3]=r.getMaxSalary();
+
+        Object[] dat = new Object[4];
+
+        for (Job r : jcon.getById(cari.getText())) {
+            dat[0] = r.getJobId();
+            dat[1] = r.getJobTitle();
+            dat[2] = r.getMinSalary();
+            dat[3] = r.getMaxSalary();
             model.addRow(dat);
         }
     }//GEN-LAST:event_searchActionPerformed
+
+    private void minKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_minKeyPressed
+        // TODO add your handling code here:
+        typecheck(min, jLabel5);
+    }//GEN-LAST:event_minKeyPressed
+
+    private void maxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_maxKeyPressed
+        // TODO add your handling code here:
+        typecheck(max, jLabel6);
+    }//GEN-LAST:event_maxKeyPressed
+
+    private void maxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_maxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
