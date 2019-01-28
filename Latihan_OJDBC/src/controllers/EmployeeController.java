@@ -24,9 +24,8 @@ public class EmployeeController {
     public EmployeeController(Connection connection) {
         edao = new EmployeeDAO(connection);
     }
-	
-	
-	public int getMaxEmpId(){
+
+    public int getMaxEmpId() {
         int empId = edao.MaxEmpId();
         return empId;
     }
@@ -50,7 +49,6 @@ public class EmployeeController {
         }
         return manager;
     }
-    
 
     public List<Employee> getDataSearch(Object k) {
         List<Employee> employees = new ArrayList<Employee>();

@@ -112,4 +112,25 @@ public class DepartmentDAO {
 
         return result;
     }
+    
+        /**
+     * Method MaxEmpId berfungsi untuk mengembalikan nilai id employee yang
+     * paling besar dalam table employee
+     */
+    public int MaxDepId() {
+        String query = "SELECT DEPARTMENT_ID"
+                + " FROM DEPARTMENTS INNER JOIN (SELECT MAX(DEPARTMENT_ID) AS MAX_DEP"
+                + " FROM DEPARTMENTS) dep_id ON DEPARTMENTS.DEPARTMENT_ID = dep_id.MAX_DEP";
+        int maxId = 0;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                maxId = resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maxId;
+    }
 }

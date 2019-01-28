@@ -5,6 +5,7 @@
     <class>views.Regions</class>
     <class>views.Departments</class>
     <class>views.Locations</class>
+    <class>views.Countries</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
       <property name="javax.persistence.jdbc.user" value="SYSTEM"/>

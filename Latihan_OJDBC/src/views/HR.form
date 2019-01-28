@@ -34,7 +34,7 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenuRegion">
           <Properties>
-            <Property name="text" type="java.lang.String" value="CRUD"/>
+            <Property name="text" type="java.lang.String" value="Table"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="18" style="0"/>
             </Property>

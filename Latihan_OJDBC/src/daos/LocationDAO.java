@@ -118,4 +118,20 @@ public class LocationDAO {
 
         return result;
     }
+    public int MaxLocId() {
+        String query = "SELECT LOCATION_ID"
+                + " FROM LOCATIONS INNER JOIN (SELECT MAX(LOCATION_ID) AS MAX_LOC"
+                + " FROM LOCATIONS) loc_id ON LOCATIONS.LOCATION_ID = loc_id.MAX_LOC";
+        int maxId = 0;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                maxId = resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maxId;
+    }
 }

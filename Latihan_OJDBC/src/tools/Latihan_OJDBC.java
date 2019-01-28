@@ -24,7 +24,7 @@ public class Latihan_OJDBC {
 
 //        RegionDAO rdao = new RegionDAO(connections.getConnection());
         RegionController regionController= new RegionController(connections.getConnection());
-        
+        System.out.println(regionController.getMaxRegId());
 //        for (Region r : rdao.getData(1,true)) {
 //            System.out.println("Id : " + r.getRegionId());
 //            System.out.println("Nama : " + r.getRegionName());

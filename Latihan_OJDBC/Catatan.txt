@@ -1,0 +1,85 @@
+RegionDAO.java
+
+    /**(Tidak jadi digunakan)
+     * Method getAll merupakan method yang digunakan untuk menampilkan data
+     * secara keseluruhan dari tabel Regions yang ada di database
+     */
+    public List<Region> getAll() {
+        List<Region> regions = new ArrayList<Region>();
+        String query = "SELECT * from REGIONS ORDER BY REGION_ID";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                regions.add(new Region(resultSet.getInt(1), resultSet.getString(2)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return regions;
+    }
+
+   /** (Tidak jadi digunakan)
+     * Fungsi untuk mencari data berdasarkan region id
+     * @param id tipe data bertipe integer
+     * @return menampilkan hasil pencarian data
+     */
+    public List<Region> getById(int id) {
+        List<Region> regions = new ArrayList<Region>();
+        String query = "SELECT * FROM REGIONS WHERE REGION_ID = " + id;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                regions.add(new Region(resultSet.getInt(1), resultSet.getString(2)));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return regions;
+    }
+
+    /** (Tidak jadi digunakan)
+     * Fungsi untuk mencari data berdasarkan keyword
+     * @param keyword bertipe data string
+     * @return menampilka list data
+     */
+    public List<Region> search(String keyword) {
+        List<Region> regions = new ArrayList<Region>();
+        String keywordlower = keyword.toLowerCase();
+        String query = "SELECT REGION_ID, REGION_NAME FROM REGIONS "
+                + "WHERE REGION_ID LIKE '%" + keyword + "%' "
+                + "OR REGION_NAME LIKE '%" + keyword + "%' ";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                regions.add(new Region(resultSet.getInt(1), resultSet.getString(2)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return regions;
+    }
+
+RegionController.java
+/** (Tidak jadi digunakan)
+     * Method getDataById digunakan untuk melakukan pencarian data pada
+     * departments berasarkan region id dengan cara memanggil method getData
+     * dengan kondisi true pada class RegionDAO Method getDataById memiliki list
+     * bernama regions yang berfungsi untuk menyimpan hasil pencarian Method
+     * getDataById memiliki access modifier public
+     */
+    private List<Region> getDataById(String id) {
+        List<Region> regions = new ArrayList<Region>();
+        try {
+            int idINT = new Integer(id);
+            regions = rdao.getData(idINT, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return regions;
+    //return rdao.getData(new Integer(id), true);
+    }
