@@ -7,7 +7,6 @@ package controllers;
 
 import daos.EmployeeDAO;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import models.Employee;
@@ -24,101 +23,82 @@ public class EmployeeController {
     public EmployeeController(Connection connection) {
         edao = new EmployeeDAO(connection);
     }
-
+    
+    /**
+     * Fungsi untuk mengambil id employee yang bernilai paling besar
+     * @return id employee bernilai paling besar
+     */
+    
     public int getMaxEmpId() {
-        int empId = edao.MaxEmpId();
-        return empId;
+        return edao.MaxEmpId();
+//        return edao.getData("", false).size()+1;
     }
 
-    public List<String> getManagerId() {
-        List<String> manager = new ArrayList<String>();
-        List<Integer> id = new ArrayList<Integer>();
-        boolean result = false;
-        try {
-            for (Employee e : edao.getData("", false)) {
-                id.add(e.getManager());
-            }
-            for (int i = 0; i < id.size(); i++) {
-                for (Employee employee : edao.getData(id.remove(i), result)) {
-                    manager.add(employee.getFirst_name());
-                }
-            }
-            result = true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return manager;
-    }
-
+    /**
+     * Fungsi untuk melakukan pencarian data dengan objek
+     * @param k objek yang dicari
+     * @return mengembalikan variabel employee
+     */
     public List<Employee> getDataSearch(Object k) {
-        List<Employee> employees = new ArrayList<Employee>();
-        try {
-            employees = edao.getData(k, false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return employees;
+        return edao.getData(k, false);
     }
-
+    /**
+     * Fungsi untuk melakukan pencarian data dengan String id
+     * @param id data yang dicari
+     * @return mengembalikan variabel employee
+     */
     public List<Employee> getDataById(String id) {
-        List<Employee> employees = new ArrayList<Employee>();
-        try {
-            int idINT = new Integer(id);
-            employees = edao.getData(idINT, false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return employees;
+        return edao.getData(new Integer(id), false);
     }
-
+    /**
+     * Fungsi untuk melakukan proses insert pada database
+     * @param id employee id
+     * @param first first name 
+     * @param last last name
+     * @param email email
+     * @param phone phone number
+     * @param hire hire date
+     * @param job job id
+     * @param salary salary
+     * @param commission commission
+     * @param manager manager id
+     * @param dept department id
+     * @return hasil dari proses insert
+     */
     public boolean insert(String id, String first, String last, String email,
             String phone, Date hire, String job, String salary,
             String commission, String manager, String dept) {
-        boolean result = false;
-        try {
-            int idINT = new Integer(id);
-            int salaryINT = new Integer(salary);
-            int commissionINT = new Integer(commission);
-            int managerINT = new Integer(manager);
-            int deptINT = new Integer(dept);
-            edao.save(new Employee(idINT, first, last, email, phone, hire, job,
-                    salaryINT, commissionINT, managerINT, deptINT), true);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+        return edao.save(new Employee(new Integer(id), first, last, email, phone, hire, job,
+                new Integer(salary), new Integer(commission), new Integer(manager), new Integer(dept)), true);
     }
-
+        /**
+     * Fungsi untuk melakukan proses update pada database
+     * @param id employee id
+     * @param first first name 
+     * @param last last name
+     * @param email email
+     * @param phone phone number
+     * @param hire hire date
+     * @param job job id
+     * @param salary salary
+     * @param commission commission
+     * @param manager manager id
+     * @param dept department id
+     * @return hasil dari proses update
+     */
     public boolean update(String id, String first, String last, String email,
             String phone, Date hire, String job, String salary,
             String commission, String manager, String dept) {
-        boolean result = false;
-        try {
-            int idINT = new Integer(id);
-            int salaryINT = new Integer(salary);
-            int commissionINT = new Integer(commission);
-            int managerINT = new Integer(manager);
-            int deptINT = new Integer(dept);
-            edao.save(new Employee(idINT, first, last, email, phone, hire, job,
-                    salaryINT, commissionINT, managerINT, deptINT), false);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+        return edao.save(new Employee(new Integer(id), first, last, email, phone, hire, job,
+                new Integer(salary), new Integer(commission), new Integer(manager), new Integer(dept)), false);
     }
-
+    /**
+     * Fungsi untuk melakukan penghapusan data berdasar id
+     * @param id yang akan dihapus
+     * @return hasil dari proses penghapusan
+     */
     public boolean delete(String id) {
-        boolean result = false;
-        try {
-            int idINT = new Integer(id);
-            edao.delete(idINT);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+        return edao.delete(new Integer(id));
     }
 
 }

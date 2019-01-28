@@ -36,7 +36,7 @@ public class EmployeeDAO {
      * paling besar dalam table employee
      */
     public int MaxEmpId() {
-        String query = "SELECT EMPLOYEE_ID FROM HR.EMPLOYEES INNER JOIN (SELECT MAX(EMPLOYEE_ID) AS MAX_EMP FROM HR.EMPLOYEES) emp_id ON HR.EMPLOYEES.EMPLOYEE_ID = emp_id.MAX_EMP";
+        String query = "SELECT MAX(EMPLOYEE_ID) + 1 FROM EMPLOYEES";
         int maxId = 0;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -60,13 +60,11 @@ public class EmployeeDAO {
         String query;
         List<Employee> employees = new ArrayList<Employee>();
         if (isGetById) {
-            query = "SELECT * FROM EMPLOYEES WHERE EMPLOYEE_ID = " + keyword;
+            query = "SELECT * FROM EMPLOYEES WHERE EMPLOYEE_ID = " + keyword +"ORDER BY EMPLOYEE_ID";
         } else {
             query = "SELECT * FROM EMPLOYEES "
                     + "WHERE EMPLOYEE_ID LIKE '%" + keyword + "%' "
-                    + "OR FIRST_NAME LIKE '%" + keyword + "%' "
-                    + "OR MANAGER_ID LIKE '%" + keyword + "%' "
-                    + "OR DEPARTMENT_ID LIKE '%" + keyword + "%' ";
+                    + "OR FIRST_NAME LIKE '%" + keyword + "%' ORDER BY EMPLOYEE_ID";
         }
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
