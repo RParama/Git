@@ -38,21 +38,9 @@ public class JobController {
      * Method getJobs memiliki list bernama joblist yang berfungsi untuk menyimpan hasil pencarian
      * Method getJobs memiliki access modifier public
      */
-    public List<String> getJobs (){
-        List<String> joblist = new ArrayList<String>();
-        boolean result = false;
-        try {
-            for (Job job : jdao.getData("", false)) {
-                joblist.add(job.getJobTitle());
-            }
-
-            
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return joblist;
-    }
+    public List<Job> getJobs (){
+        return jdao.getData("", false); 
+           }
     
      /**
      * Method insert digunakan untuk melakukan insert data baru ke database
@@ -62,15 +50,7 @@ public class JobController {
      * Method insert memiliki access modifier public
      */
     public boolean insert(String id, String title, int minSalary, int maxSalary) {
-        boolean result = false;
-        try {
-
-            jdao.save(new Job(id, title, minSalary, maxSalary), true);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+        return jdao.save(new Job(id, title, minSalary, maxSalary), true);
     }
 
     /**
@@ -81,15 +61,7 @@ public class JobController {
      * Method update memiliki access modifier public
      */
     public boolean update(String id, String title, int minSalary, int maxSalary) {
-        boolean result = false;
-        try {
-
-            jdao.save(new Job(id, title, minSalary, maxSalary), false);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+        return jdao.save(new Job(id, title, minSalary, maxSalary), false);
     }
 
      /**
@@ -99,14 +71,7 @@ public class JobController {
      * Method delete memiliki access modifier public
      */
     public boolean delete(String id) {
-        boolean result = false;
-        try {
-            jdao.delete(new Job(id));
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+        return jdao.delete(new Job(id));
     }
 
     /**
@@ -116,17 +81,7 @@ public class JobController {
      * Method getData memiliki access modifier public
      */
     public List<Job> getData() {
-        List<Job> job = new ArrayList<Job>();
- 
-        boolean result = false;
-        try {
-
-            job = jdao.getData("", false);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return job;
+        return jdao.getData("", false);
     }
 
      /**
@@ -136,16 +91,7 @@ public class JobController {
      * Method getById memiliki access modifier public
      */
     public List<Job> getById(Object id) {
-        List<Job> job = new ArrayList<Job>();
-        boolean result = false;
-        try {
-
-            job = jdao.getData(id, false);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return job;
+        return jdao.getData(id, false);
     }
 
     /**
@@ -155,15 +101,15 @@ public class JobController {
      * Memanggil method getJobId dan getJobTitle pada class model Job
      * untuk menampilkan id dana nama
      */
-    public static void main(String[] args) {
-        Connections connections = new Connections();
-        JobController a = new JobController(connections.getConnection());
-
-        for (Job r : a.getById("REP")) {
-            System.out.println("Id : " + r.getJobId());
-            System.out.println("Nama : " + r.getJobTitle());
+//    public static void main(String[] args) {
+//        Connections connections = new Connections();
+//        JobController a = new JobController(connections.getConnection());
+//
+//        for (Job r : a.getById("REP")) {
+//            System.out.println("Id : " + r.getJobId());
+//            System.out.println("Nama : " + r.getJobTitle());
+////        }
+//
 //        }
-
-        }
     }
-}
+
