@@ -67,7 +67,12 @@ public class LocationController {
     /**
      * Fungsi digunakan untuk melakukan insert data 
      * Memanggil method save dengan kondisi true pada class LocationDAO 
-     * @param locationId, streetAddress, postalCode, city, stateProvince, countryId bertipe string
+     * @param locationId bertipe string
+     * @param streetAddress bertipe string
+     * @param postalCode bertipe string
+     * @param city bertipe string
+     * @param stateProvince bertipe string
+     * @param countryId bertipe string
      * @return berhasil melakukan insert data
      */
     public boolean insert(String locationId, String streetAddress, String postalCode,
@@ -87,7 +92,12 @@ public class LocationController {
     /**
      * Fungsi digunakan untuk melakukan update data 
      * Memanggil method save dengan kondisi false pada class LocationDAO 
-     * @param id bertipe locationId, streetAddress, postalCde, city, stateProvince, countryId bertipe data string
+     * @param locationId bertipe string
+     * @param streetAddress bertipe string
+     * @param postalCode bertipe string
+     * @param city bertipe string
+     * @param stateProvince bertipe string
+     * @param countryId bertipe string
      * @return berhasil melakukan update
      */
     public boolean update(String locationId, String streetAddress, String postalCode,
