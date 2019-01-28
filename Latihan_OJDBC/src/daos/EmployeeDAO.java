@@ -30,7 +30,26 @@ public class EmployeeDAO {
     public EmployeeDAO(Connection connection) {
         this.connection = connection;
     }
-
+	
+	/**
+     * Method MaxEmpId berfungsi untuk mengembalikan nilai id employee yang
+     * paling besar dalam table employee
+     */
+    public int MaxEmpId() {
+        String query = "SELECT EMPLOYEE_ID FROM HR.EMPLOYEES INNER JOIN (SELECT MAX(EMPLOYEE_ID) AS MAX_EMP FROM HR.EMPLOYEES) emp_id ON HR.EMPLOYEES.EMPLOYEE_ID = emp_id.MAX_EMP";
+        int maxId = 0;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                maxId = resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maxId;
+    }
+	
     /**
      * Method getData berfungsi untuk melakukan pencarian berdasarkan keyword yang di inputkan
      * Jika nilai dari isGetId bernilai true, maka sistem akan menampilkan data sesuai dengan employee id nya
