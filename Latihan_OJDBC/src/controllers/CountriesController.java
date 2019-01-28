@@ -83,7 +83,9 @@ public class CountriesController {
      /**
      * Fungsi untuk melakukan insert data
      * Memanggil method save dengan kondisi true pada class CountrieDAO
-     * @param Country_Id, Country_Name, Region_Id bertipe data String
+     * @param Country_Id bertipe data String
+     * @param Country_Name bertipe data String
+     * @param Region_Id bertipe data String
      * @return berhasil melakukan insert data
      */
     public boolean insert(String Country_Id, String Country_Name, String Region_Id) {
@@ -101,7 +103,9 @@ public class CountriesController {
      /**
      * Fungsi untuk melakukan update data
      * Memanggil method save dengan kondisi false pada class DepartmentDAO
-     * @param Country_Id, Country_Name, Region_Id bertipe data String
+     * @param Country_Id bertipe data String
+     * @param Country_Name bertipe data String
+     * @param Region_Id bertipe data String
      * @return berhasil melakukan update data
      */    
     public boolean update(String Country_Id, String Country_Name, String Region_Id) {
