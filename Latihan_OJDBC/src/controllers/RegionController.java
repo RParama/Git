@@ -31,6 +31,12 @@ public class RegionController {
         rdao = new RegionDAO(connection);
     }
 
+     /**
+     * Method getRegionList digunakan untuk menampilkan data pada department secara keseluruhan
+     * dengan cara memanggil method getData dengan kondisi false pada class RegionDAO
+     * Method getRegionList memiliki list bernama regionList yang berfungsi untuk menyimpan hasil pencarian
+     * Method getRegionList memiliki access modifier public
+     */
     public List<String> getRegionList() {
         List<String> regionList = new ArrayList<String>();
         boolean result = false;
@@ -45,6 +51,12 @@ public class RegionController {
         return regionList;
     }
 
+     /**
+     * Method getDataById digunakan untuk melakukan pencarian data pada departments berasarkan region id
+     * dengan cara memanggil method getData dengan kondisi true pada class RegionDAO
+     * Method getDataById memiliki list bernama regions yang berfungsi untuk menyimpan hasil pencarian
+     * Method getDataById memiliki access modifier public
+     */
     public List<Region> getDataById(String id) {
         List<Region> regions = new ArrayList<Region>();
         try {
@@ -56,6 +68,13 @@ public class RegionController {
         return regions;
     }
 
+    /**
+     * Method getDataSearch digunakan untuk melakukan pencarian data 
+     * pada regions sesuai dengan keyword yang di inputkan
+     * dengan cara memanggil method getData dengan kondisi false pada class RegionDAO
+     * Method getDataSearch memiliki list bernama regions yang berfungsi untuk menyimpan hasil pencarian
+     * Method getDataSearch memiliki access modifier public
+     */
     public List<Region> getDataSearch(Object k) {
         List<Region> regions = new ArrayList<Region>();
         try {
@@ -102,6 +121,12 @@ public class RegionController {
         return result;
     }
 
+    /**
+     * Method delete digunakan untuk menghapus regions berdasarkan regions id
+     * dengan cara memanggil method delete pada class RegionDAO
+     * Method delete memiliki parameter id bertipe data string
+     * Method delete memiliki access modifier public
+     */
     public boolean delete(String id) {
         boolean result = false;
         try {
