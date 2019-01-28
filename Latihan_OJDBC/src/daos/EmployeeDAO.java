@@ -23,17 +23,18 @@ public class EmployeeDAO {
 
     private Connection connection;
 
-    /**
-     * Method EmployeeDAO merupakan constructor dari class EmployeeDAO
-     * Method ini berfungsi untuk melakukan koneksi dengan menggunakan parameter Connection
+     /**
+     * Fungsi untuk melakukan koneksi ke database
+     * @param objek connection dari class Connection
      */
     public EmployeeDAO(Connection connection) {
         this.connection = connection;
     }
 	
-	/**
+     /**
      * Method MaxEmpId berfungsi untuk mengembalikan nilai id employee yang
      * paling besar dalam table employee
+     * @return menampilkan nilai max
      */
     public int MaxEmpId() {
         String query = "SELECT MAX(EMPLOYEE_ID) + 1 FROM EMPLOYEES";
@@ -50,11 +51,14 @@ public class EmployeeDAO {
         return maxId;
     }
 	
-    /**
-     * Method getData berfungsi untuk melakukan pencarian berdasarkan keyword yang di inputkan
-     * Jika nilai dari isGetId bernilai true, maka sistem akan menampilkan data sesuai dengan employee id nya
-     * Jika nilai dari isGetId bernilai false, maka sistem akan menampilkan semua data 
-     * yang berhubungan dengan karakter yang di inputkan
+     /**
+     * Fungsi digunakan untuk melakukan pencarian data berdasarkan keyword yang di inputkan
+     * Jika isGetById bernilai false, maka sistem akan menampilkan 
+     * semua data yang berkaitan dengan keyword
+     * Jika isGetById bernilai true, maka sistem akan menampilkan data berdasarkan employee_id nya
+     * @param keyword bertipe Object
+     * @param isGetById bertipe data boolean
+     * @return menampilkan hasil pencarian
      */
     public List<Employee> getData(Object keyword, boolean isGetById) {
         String query;
@@ -83,11 +87,14 @@ public class EmployeeDAO {
         return employees;
     }
     
-    /**
-     * Method save berfungsi untuk melakuka insert dan update data pada database
-     * Method save memiliki parameter e sebagi objek dari class Employee dan kondisi isInsert yang bertipedata boolean
-     * Jika isInsert bernilai true, maka sistem akan melakukan insert ke tabel employees
-     * Jika isInsert bernilai false, maka sistem akan melakukan update data employee pada tabel employees
+
+     /**
+     * Fungsi digunakan untuk melakukan insert dan update pada database
+     * Jika nilai isInsert bernilai false, maka sistem akan melakukan update data
+     * Jika nilai isInsert bernilai true, maka sistem akan melakukan insert data
+     * @param objek e pada class Employee
+     * @param isInsert bertipe data boolean
+     * @return berhasil melakukan update atau insert
      */
     public boolean save(Employee e, boolean isInsert) {
         String query;
@@ -131,7 +138,9 @@ public class EmployeeDAO {
     }
 
     /**
-     * Method delete berfungsi untuk menghapus employee berdasarkan id nya
+     * Fungsii untuk menghapus employee berdasarkan id nya
+     * @param id bertipe data integer
+     * @return berhasil melakukan delete
      */
     public boolean delete(int id) {
         boolean result = false;
