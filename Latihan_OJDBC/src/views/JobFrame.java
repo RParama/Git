@@ -105,7 +105,7 @@ public class JobFrame extends javax.swing.JInternalFrame {
           int i=1;
         Object[] dat = new Object[5];
 
-        for (Job r : jcon.getData()) {
+        for (Job r : jcon.getById(cari.getText())) {
             dat[0] = i++;
             dat[1] = r.getJobId();
             dat[2] = r.getJobTitle();
@@ -338,10 +338,9 @@ public class JobFrame extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 19, Short.MAX_VALUE)
-                        .addComponent(delete))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(insUp, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(delete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(insUp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
