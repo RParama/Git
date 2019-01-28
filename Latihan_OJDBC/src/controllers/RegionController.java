@@ -20,12 +20,10 @@ public class RegionController {
     private RegionDAO rdao;
     private Connection connection;
 
-    /**
-     * Method RegionController merupakan constructor method dari class
-     * RegionController method yang pertama kali dijalankan ketika class di
-     * eksekusi Pada method ini melakukan instansiasi objek bernama rdao pada
-     * class RegionDAO untuk melakukan koneksi ke database Method
-     * RegionController memiliki access modifier public
+   /**
+     * Pada method ini melakukan instansiasi objek 
+     * bernama rdao pada class RegionDAO untuk melakukan koneksi ke database
+     * @param connection objek dari class Connection
      */
     public RegionController(Connection connection) {
         rdao = new RegionDAO(connection);
@@ -64,43 +62,42 @@ public class RegionController {
         return rdao.getData(new Integer(id), true).get(0);
     }
 
-    /**
-     * Method getDataSearch digunakan untuk melakukan pencarian data pada
-     * regions sesuai dengan keyword yang di inputkan dengan cara memanggil
-     * method getData dengan kondisi false pada class RegionDAO Method
-     * getDataSearch memiliki list bernama regions yang berfungsi untuk
-     * menyimpan hasil pencarian Method getDataSearch memiliki access modifier
-     * public
+  
+     /**
+     * Fungsi untuk melakukan pencarian data sesuai dengan keyword yang di inputkan
+     * Memanggil method getData pada class regionDAO dengan parameter k dan kondisi false
+     * @param id k bertipe Object
+     * @return menampilkan hasil pencarian
      */
     public List<Region> search(Object k) {
         return rdao.getData(k, false);
     }
 
     /**
-     * Method insert digunakan untuk melakukan insert data baru ke database
-     * dengan cara memanggil method save dengan kondisi true pada class
-     * RegionDAO Method insert memiliki parameter id dan name yang memiliki tipe
-     * data string Method insert memiliki access modifier public
+     * Fungsi untuk melakukan insert data baru ke database
+     * dengan cara memanggil method save dengan kondisi true pada class RegionDAO 
+     * @param id, name bertipe data string
+     * @return berhasil melakukan insert ke database
      */
     public boolean insert(String id, String name) {
         return rdao.save(new Region(new Integer(id), name), true);
     }
 
     /**
-     * Method update digunakan untuk melakukan insert data baru ke database
+     * Fungsi digunakan untuk melakukan update data
      * dengan cara memanggil method save dengan kondisi false pada class
-     * RegionDAO Method update memiliki parameter id dan name yang memiliki tipe
-     * data string Method update memiliki access modifier public
+     * @param id, name bertipe data string
+     * @return berhasil melakukan update data
      */
     public boolean update(String id, String name) {
         return rdao.save(new Region(new Integer(id), name), false);
     }
 
     /**
-     * Method delete digunakan untuk menghapus regions berdasarkan regions id
-     * dengan cara memanggil method delete pada class RegionDAO Method delete
-     * memiliki parameter id bertipe data string Method delete memiliki access
-     * modifier public
+     * Fungsi untuk menghapus regions berdasarkan regions id
+     * dengan cara memanggil method delete pada class RegionDAO
+     * @param id tipe data string
+     * @return berhasil menghapus data berdasarkan id
      */
     public boolean delete(String id) {
         return rdao.delete(new Integer(id));
