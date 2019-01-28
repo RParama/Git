@@ -42,7 +42,10 @@ public class JobController {
      /**
      * Method insert digunakan untuk melakukan insert data baru ke database
      * dengan cara memanggil method save dengan kondisi true pada class JobDAO
-     * @param id dan title bertipe data string, minSalary dan maxSalary bertipe integer
+     * @param id bertipe data string
+     * @param title bertipe data string
+     * @param minSalary bertipe integer
+     * @param maxSalary bertipe integer
      * @return berhasil menyimpan pada database
      */
     public boolean insert(String id, String title, int minSalary, int maxSalary) {
@@ -52,7 +55,10 @@ public class JobController {
     /**
      * Method update digunakan untuk melakukan update data pada database
      * dengan cara memanggil method save dengan kondisi false pada class JobDAO
-     * @param id dan title bertipe data string, minSalary dan maxSalary bertipe data integer
+     * @param id bertipe data string
+     * @param title bertipe data string
+     * @param minSalary bertipe integer
+     * @param maxSalary bertipe integer
      * @return berhasil melakukan update
      */
     public boolean update(String id, String title, int minSalary, int maxSalary) {
