@@ -24,9 +24,7 @@ public class JobController {
     /**
      * Pada method ini melakukan instansiasi objek 
      * bernama jdao pada class JobDAO untuk melakukan koneksi ke database
-     * Method JobController memiliki access modifier public
      * @param connection objek dari class Connection
-     * @return menampilkan hasil pencarian
      */
     public JobController(Connection connection) {
         jdao = new JobDAO(connection);
