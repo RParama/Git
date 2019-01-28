@@ -84,7 +84,8 @@ public class DepartmentController {
      /**
      * Fungsi untuk melakukan insert data
      * Memanggil method save dengan kondisi true pada class DepartmentDAO
-     * @param departmentId, departmentName bertipe data String
+     * @param departmentId bertipe data String
+     * @param departmentName bertipe data String
      * @return berhasil melakukan insert data
      */
     public boolean insert(String departmentId, String departmentName,
@@ -105,7 +106,8 @@ public class DepartmentController {
      /**
      * Fungsi untuk melakukan update data
      * Memanggil method save dengan kondisi false pada class DepartmentDAO
-     * @param departmentId, departmentName bertipe data String
+     * @param departmentId bertipe data String
+     * @param departmentName bertipe data String
      * @return berhasil melakukan update data
      */
     public boolean update(String departmentId, String departmentName,
