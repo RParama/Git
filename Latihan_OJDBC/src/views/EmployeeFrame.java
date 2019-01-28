@@ -8,11 +8,8 @@ package views;
 import controllers.DepartmentController;
 import controllers.EmployeeController;
 import controllers.JobController;
-import java.time.Clock;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import models.Employee;
 import tools.Connections;
@@ -69,28 +66,29 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
 
     public void select() {
         int i = empTable.getSelectedRow();
-        System.out.println("" + i);
         if (i == -1) {
             return;
         }
-        String ids = (String) model.getValueAt(i, 0);
+        Date d = (Date) model.getValueAt(i, 5);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        String s = sdf.format(d);
+        int ids = (int) model.getValueAt(i, 0);
         String first = (String) model.getValueAt(i, 1);
         String last = (String) model.getValueAt(i, 2);
         String email = (String) model.getValueAt(i, 3);
         String phone = (String) model.getValueAt(i, 4);
-        Date date = (Date)model.getValueAt(i, 5);
         String jobs = (String) model.getValueAt(i, 6);
         int salary = (int) model.getValueAt(i, 7);
         int commission = (int) model.getValueAt(i, 8);
         int manager = (int) model.getValueAt(i, 9);
         int department = (int) model.getValueAt(i, 10);
 
-        jTextField1.setText(String.valueOf(ids));
+        jTextField1.setText(Integer.toString(ids));
         jTextField2.setText(String.valueOf(first));
         jTextField3.setText(String.valueOf(last));
         jTextField4.setText(String.valueOf(email));
         jTextField5.setText(String.valueOf(phone));
-        jDateChooser1.setDate(date);
+        jDateChooser1.setDate(d);
         jTextField6.setText(String.valueOf(jobs));
         jTextField7.setText(Integer.toString(salary));
         jTextField8.setText(Integer.toString(commission));
