@@ -20,8 +20,9 @@ public class LocationDAO {
 
     private Connection connection;
 
-    /**
-     * Method LocationDAO merupakan constructor method dari class LocationDAO
+     /**
+     * Fungsi untuk melakukan koneksi ke database
+     * @param objek connection dari class Connection
      */
     public LocationDAO(Connection connection) {
         this.connection = connection;
@@ -70,9 +71,11 @@ public class LocationDAO {
     }
 
     /**
-     * >save merupakan gabungan dari insert dan update >Jika (n,true) maka akan
-     * berfungsi sebagai insert >Jika (n,false) maka akan berfungsi sebagai
-     * update
+     * Method save merupakan gabungan dari insert dan update >Jika (n,true) maka akan
+     * berfungsi sebagai insert >Jika (n,false) maka akan berfungsi sebagai update
+     * @param l objek dari class Location
+     * @param isInsert bertipe data boolean
+     * @return berhasil melakukan insert atau update
      */
     public boolean save(Location l, boolean isInsert) {
         String query;
@@ -104,6 +107,8 @@ public class LocationDAO {
 
     /**
      * Method delete berfungsi untuk menghapus location berdasarkan location_id nya
+     * @param id bertipe data integer
+     * @return berhasil menghapus berdasarkan id
      */
     public boolean delete(int id) {
         boolean result = false;
@@ -118,6 +123,11 @@ public class LocationDAO {
 
         return result;
     }
+    
+    /**
+     * Fungsi untuk mengambil nilai max
+     * @return mengembalikkan nilai max
+     */
     public int MaxLocId() {
         String query = "SELECT LOCATION_ID"
                 + " FROM LOCATIONS INNER JOIN (SELECT MAX(LOCATION_ID) AS MAX_LOC"
