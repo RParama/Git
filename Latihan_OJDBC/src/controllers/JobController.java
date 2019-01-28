@@ -22,11 +22,11 @@ public class JobController {
     private Connections connection;
 
     /**
-     * Method JobController merupakan constructor method dari class JobController
-     * method yang pertama kali dijalankan ketika class di eksekusi
      * Pada method ini melakukan instansiasi objek 
      * bernama jdao pada class JobDAO untuk melakukan koneksi ke database
      * Method JobController memiliki access modifier public
+     * @param connection objek dari class Connection
+     * @return menampilkan hasil pencarian
      */
     public JobController(Connection connection) {
         jdao = new JobDAO(connection);
@@ -35,8 +35,7 @@ public class JobController {
      /**
      * Method getJobs digunakan untuk menampilkan data pada jobs secara keseluruhan
      * dengan cara memanggil method getData dengan kondisi false pada class JobDAO
-     * Method getJobs memiliki list bernama joblist yang berfungsi untuk menyimpan hasil pencarian
-     * Method getJobs memiliki access modifier public
+     * @return menampilkan data Jobs
      */
     public List<Job> getJobs (){
         return jdao.getData("", false); 
@@ -45,9 +44,8 @@ public class JobController {
      /**
      * Method insert digunakan untuk melakukan insert data baru ke database
      * dengan cara memanggil method save dengan kondisi true pada class JobDAO
-     * Method insert memiliki parameter id dan title bertipe data string
-     * minSalary dan maxSalary bertipe data integer
-     * Method insert memiliki access modifier public
+     * @param id dan title bertipe data string, minSalary dan maxSalary bertipe integer
+     * @return berhasil menyimpan pada database
      */
     public boolean insert(String id, String title, int minSalary, int maxSalary) {
         return jdao.save(new Job(id, title, minSalary, maxSalary), true);
@@ -56,9 +54,8 @@ public class JobController {
     /**
      * Method update digunakan untuk melakukan update data pada database
      * dengan cara memanggil method save dengan kondisi false pada class JobDAO
-     * Method update memiliki parameter id dan title bertipe data string
-     * minSalary dan maxSalary bertipe data integer
-     * Method update memiliki access modifier public
+     * @param id dan title bertipe data string, minSalary dan maxSalary bertipe data integer
+     * @return berhasil melakukan update
      */
     public boolean update(String id, String title, int minSalary, int maxSalary) {
         return jdao.save(new Job(id, title, minSalary, maxSalary), false);
@@ -67,18 +64,17 @@ public class JobController {
      /**
      * Method delete digunakan untuk menghapus department berdasarkan job id
      * dengan cara memanggil method delete pada class JobDAO
-     * Method delete memiliki parameter id bertipe data string
-     * Method delete memiliki access modifier public
+     * @param id bertipe data string
+     * @return berhasil melakukan delete berdasarkan id
      */
     public boolean delete(String id) {
         return jdao.delete(new Job(id));
     }
 
     /**
-     * Method getData digunakan untuk menampilkan data pada department secara keseluruhan
-     * dengan cara memanggil method getData dengan kondisi false pada class DepartmentDAO
-     * Method getData memiliki list bernama job yang berfungsi untuk menyimpan hasil pencarian
-     * Method getData memiliki access modifier public
+     * Method getAll data
+     * dengan cara memanggil method getData dengan kondisi false pada class JobDAO
+     * @return menampilkan data keseluruhan
      */
     public List<Job> getData() {
         return jdao.getData("", false);
@@ -87,8 +83,8 @@ public class JobController {
      /**
      * Method getById digunakan untuk melakukan pencarian data berasarkan job id
      * dengan cara memanggil method getData dengan kondisi false pada class JobDAO
-     * Method getById memiliki list bernama job yang berfungsi untuk menyimpan hasil pencarian
-     * Method getById memiliki access modifier public
+     * @param id bertipe object
+     * @return menampilkan data berdasarkan id yang dicari
      */
     public List<Job> getById(Object id) {
         return jdao.getData(id, false);
