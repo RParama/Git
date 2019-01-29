@@ -35,20 +35,27 @@ public class EmployeeController {
     }
 
     /**
-     * Fungsi untuk melakukan pencarian data dengan objek
-     * @param k objek yang dicari
-     * @return mengembalikan variabel employee
+     * Fungsi untuk melakukan pengambilan seluruh data
+     * @return mengembalikan seluruh data
      */
-    public List<Employee> getDataSearch(Object k) {
-        return edao.getData(k, false);
+    public List<Employee> getDataAll() {
+        return edao.getData("", false);
     }
     /**
      * Fungsi untuk melakukan pencarian data dengan String id
      * @param id data yang dicari
      * @return mengembalikan variabel employee
      */
-    public List<Employee> getDataById(String id) {
-        return edao.getData(new Integer(id), false);
+    public Employee getById(String id) {
+        return edao.getData(new Integer(id), false).get(0);
+    }
+    /**
+     * Fungsi untuk melakukan pencarian data dengan objek
+     * @param data objek yang dicari
+     * @return data yang dicari
+     */
+    public List<Employee> search(Object data){
+        return edao.getData(data, true);
     }
     /**
      * Fungsi untuk melakukan proses insert pada database

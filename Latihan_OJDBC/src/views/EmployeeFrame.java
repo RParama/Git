@@ -35,44 +35,35 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
     public EmployeeFrame() {
 
         initComponents();
-//        loadData();
-        loadButton1Action();
+        loadData();
         loadCombo();
 
     }
 
     public void loadData() {
-        model = new DefaultTableModel();
-        empTable.setModel(model);
-        String[] colName = {"Nomor", "Employee ID", "First Name",
+        String header[] = {"Employee ID", "First Name",
             "Last Name", "Email", "Phone Number", "Hire Date", "Job", "Salary",
             "Commission", "Manager", "Department"};
-        for (int i = 0; i < colName.length; i++) {
-            model.addColumn(colName[i]);
+        List<Employee> employees = econ.getDataAll();
+        Object[][] datas = new Object[employees.size()][header.length];
+        for (int i = 0; i < employees.size(); i++) {
+            List<Job> job = jcon.getById(employees.get(i).getJob());
+            Employee mgr = econ.getById(Integer.toString(employees.get(i).getManager()));
+            List<Department> dpt = dcon.getById(Integer.toString(employees.get(i).getDepartment()));
+            datas[i][0] = employees.get(i).getId();
+            datas[i][1] = employees.get(i).getFirst_name();
+            datas[i][2] = employees.get(i).getLast_name();
+            datas[i][3] = employees.get(i).getEmail();
+            datas[i][4] = employees.get(i).getPhone();
+            datas[i][5] = employees.get(i).getHire();
+            datas[i][6] = job.get(0).getJobTitle();;
+            datas[i][7] = employees.get(i).getSalary();
+            datas[i][8] = employees.get(i).getCommission();
+            datas[i][9] = mgr.getLast_name();
+            datas[i][10] = dpt.get(0).getDepartmentName();
         }
-
-        Object[] dataEmp = new Object[12];
-        int g = 1;
-        for (Employee e : econ.getDataSearch("")) {
-            List<Job> job = jcon.getById(e.getJob());
-            List<Employee> mgr = econ.getDataById(Integer.toString(e.getManager()));
-            List<Department> dpt = dcon.getById(Integer.toString(e.getDepartment()));
-            dataEmp[0] = g++;
-            dataEmp[1] = e.getId();
-            dataEmp[2] = e.getFirst_name();
-            dataEmp[3] = e.getLast_name();
-            dataEmp[4] = e.getEmail();
-            dataEmp[5] = e.getPhone();
-            dataEmp[6] = e.getHire();
-            dataEmp[7] = job.get(0).getJobTitle();
-            dataEmp[8] = e.getSalary();
-            dataEmp[9] = e.getCommission();
-            dataEmp[10] = mgr.get(0).getLast_name();
-            if (e.getDepartment() != 0) {
-                dataEmp[11] = dpt.get(0).getDepartmentName();
-            }
-            model.addRow(dataEmp);
-        }
+        model = new DefaultTableModel(datas, header);
+        empTable.setModel(model);
 
     }
 
@@ -82,57 +73,56 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
             return;
         }
         List<Job> job = jcon.getData();
-        List<Employee> mgr = econ.getDataSearch("");
+        List<Employee> mgr = econ.getDataAll();
         List<Department> dpt = dcon.getDepartmentList();
         Date d = (Date) model.getValueAt(i, 6);
 
-
-        jTextField1.setText(Integer.toString((int) model.getValueAt(i, 1)));
-        jTextField2.setText(String.valueOf(model.getValueAt(i, 2)));
-        jTextField3.setText(String.valueOf(model.getValueAt(i, 3)));
-        jTextField4.setText(String.valueOf(model.getValueAt(i, 4)));
-        jTextField5.setText(String.valueOf(model.getValueAt(i, 5)));
+        idField.setText(Integer.toString((int) model.getValueAt(i, 1)));
+        firstnameField.setText(String.valueOf(model.getValueAt(i, 2)));
+        lastnameField.setText(String.valueOf(model.getValueAt(i, 3)));
+        emailField.setText(String.valueOf(model.getValueAt(i, 4)));
+        phonenumberField.setText(String.valueOf(model.getValueAt(i, 5)));
 
         for (int j = 0; j < job.size(); j++) {
             if (job.get(j).getJobTitle().equals(model.getValueAt(i, 7))) {
-                jComboBox1.setSelectedIndex(j);
+                jobList.setSelectedIndex(j);
             }
         }
-        jDateChooser1.setDate(d);
-        jTextField7.setText(String.valueOf(model.getValueAt(i, 8)));
-        jTextField8.setText(String.valueOf(model.getValueAt(i, 9)));
+        hiredateChooser.setDate(d);
+        salaryField.setText(String.valueOf(model.getValueAt(i, 8)));
+        commissionField.setText(String.valueOf(model.getValueAt(i, 9)));
         for (int k = 0; k < mgr.size(); k++) {
             if (mgr.get(k).getLast_name().equals(model.getValueAt(i, 10))) {
-                jComboBox2.setSelectedIndex(k);
+                managerField.setSelectedIndex(k);
             }
 
         }
 
         for (int l = 0; l < dpt.size(); l++) {
             if (dpt.get(l).getDepartmentName().equals(model.getValueAt(i, 11))) {
-                jComboBox3.setSelectedIndex(l);
+                departmentField.setSelectedIndex(l);
             }
 
         }
-        jButton2.setText("UPDATE");
+        insertupdateButton.setText("UPDATE");
 
     }
 
     public void resetData() {
-        jTextField1.setText(econ.getMaxEmpId() + "");
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
-        jTextField5.setText("");
-        jComboBox1.setSelectedIndex(0);
-        jTextField7.setText("");
-        jTextField8.setText("");
-        jComboBox2.setSelectedIndex(0);
-        jComboBox3.setSelectedIndex(0);
-        jTextField10.setText("");
-        jComboBox1.setSelectedIndex(1);
-        jDateChooser1.setDate(new Date());
-        jButton2.setText("INSERT");
+        idField.setText(econ.getMaxEmpId() + "");
+        firstnameField.setText("");
+        lastnameField.setText("");
+        emailField.setText("");
+        phonenumberField.setText("");
+        jobList.setSelectedIndex(0);
+        salaryField.setText("");
+        commissionField.setText("");
+        managerField.setSelectedIndex(0);
+        departmentField.setSelectedIndex(0);
+        searchField.setText("");
+        jobList.setSelectedIndex(1);
+        hiredateChooser.setDate(new Date());
+        insertupdateButton.setText("INSERT");
     }
 
     public static void main(String[] args) {
@@ -153,35 +143,35 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jTextField10 = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
+        searchField = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         empTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        idField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        firstnameField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        lastnameField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        emailField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        phonenumberField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        hiredateChooser = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        salaryField = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        commissionField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        insertupdateButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        jobList = new javax.swing.JComboBox<>();
+        managerField = new javax.swing.JComboBox<>();
+        departmentField = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -193,10 +183,10 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(583, 1011));
         setVisible(true);
 
-        jButton1.setText("CARI");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        searchButton.setText("CARI");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                searchButtonActionPerformed(evt);
             }
         });
 
@@ -230,9 +220,9 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Employee Data"));
 
-        jTextField1.setEditable(false);
+        idField.setEditable(false);
         int i = econ.getMaxEmpId()+1;
-        jTextField1.setText(Integer.toString(i));
+        idField.setText(Integer.toString(i));
 
         jLabel1.setText("ID");
 
@@ -256,17 +246,17 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
 
         jLabel11.setText("Department");
 
-        jButton2.setText("INSERT");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        insertupdateButton.setText("INSERT");
+        insertupdateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                insertupdateButtonActionPerformed(evt);
             }
         });
 
-        jButton3.setText("DELETE");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        deleteButton.setText("DELETE");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                deleteButtonActionPerformed(evt);
             }
         });
 
@@ -291,87 +281,87 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
                             .addComponent(jLabel1))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField5)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(commissionField, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(salaryField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phonenumberField)
+                            .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lastnameField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(firstnameField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(managerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(departmentField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(113, 113, 113)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(115, 115, 115)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jobList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(115, 115, 115)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(hiredateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(116, 116, 116)
-                        .addComponent(jButton2)
+                        .addComponent(insertupdateButton)
                         .addGap(45, 45, 45)
-                        .addComponent(jButton3)))
+                        .addComponent(deleteButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField1, jTextField2, jTextField3, jTextField4, jTextField5, jTextField7, jTextField8});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {commissionField, emailField, firstnameField, idField, lastnameField, phonenumberField, salaryField});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(firstnameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lastnameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(phonenumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel6)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(hiredateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jobList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(salaryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(commissionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(managerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(departmentField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)))
+                    .addComponent(insertupdateButton)
+                    .addComponent(deleteButton)))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jTextField1, jTextField2, jTextField3, jTextField4, jTextField5, jTextField7, jTextField8});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {commissionField, emailField, firstnameField, idField, lastnameField, phonenumberField, salaryField});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -384,9 +374,9 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(searchButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 810, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -396,8 +386,8 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchButton)
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -408,137 +398,104 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        model = new DefaultTableModel();
-//        empTable.setModel(model);
-//        String[] colName = {"Employee ID", "First Name",
-//            "Last Name", "Email", "Phone Number", "Hire Date", "Job", "Salary",
-//            "Commission", "Manager", "Department"};
-//        for (int i = 0; i < colName.length; i++) {
-//            model.addColumn(colName[i]);
-//        }
-
-        // contoh set column name//
-//        model = new DefaultTableModel(colName, 0);
-//
-//        Object[] dataEmp = new Object[11];
-//        if (jTextField10.getText().equals("")) {
-//            loadData();
-//            resetData();
-//        } else {
-//            for (Employee e : econ.getDataSearch(jTextField10.getText())) {
-//                dataEmp[0] = e.getId();
-//                dataEmp[1] = e.getFirst_name();
-//                dataEmp[2] = e.getLast_name();
-//                dataEmp[3] = e.getEmail();
-//                dataEmp[4] = e.getPhone();
-//                dataEmp[5] = e.getHire();
-//                dataEmp[6] = e.getJob();
-//                dataEmp[7] = e.getSalary();
-//                dataEmp[8] = e.getCommission();
-//                dataEmp[9] = e.getManager();
-//                dataEmp[10] = e.getDepartment();
-//                model.addRow(dataEmp);
-//            }
-//            resetData();
-//        }
-        loadButton1Action();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void loadButton1Action() {
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         String header[] = {"Employee ID", "First Name",
             "Last Name", "Email", "Phone Number", "Hire Date", "Job", "Salary",
             "Commission", "Manager", "Department"};
-        List<Employee> employees = econ.getDataSearch(jTextField10.getText());
+        List<Employee> employees = econ.search(searchField.getText());
         Object[][] datas = new Object[employees.size()][header.length];
         for (int i = 0; i < employees.size(); i++) {
+            List<Job> job = jcon.getById(employees.get(i).getJob());
+            Employee mgr = econ.getById(Integer.toString(employees.get(i).getManager()));
+            List<Department> dpt = dcon.getById(Integer.toString(employees.get(i).getDepartment()));
             datas[i][0] = employees.get(i).getId();
             datas[i][1] = employees.get(i).getFirst_name();
             datas[i][2] = employees.get(i).getLast_name();
             datas[i][3] = employees.get(i).getEmail();
             datas[i][4] = employees.get(i).getPhone();
             datas[i][5] = employees.get(i).getHire();
-            datas[i][6] = employees.get(i).getJob();
+            datas[i][6] = job.get(i).getJobTitle();;
             datas[i][7] = employees.get(i).getSalary();
             datas[i][8] = employees.get(i).getCommission();
-            datas[i][9] = employees.get(i).getManager();
-            datas[i][10] = employees.get(i).getDepartment();
+            datas[i][9] = mgr.getLast_name();
+            datas[i][10] = dpt.get(i).getDepartmentName();
         }
         model = new DefaultTableModel(datas, header);
         empTable.setModel(model);
-    }
+    }//GEN-LAST:event_searchButtonActionPerformed
 
 
     private void empTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_empTableMouseClicked
         select();
     }//GEN-LAST:event_empTableMouseClicked
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int selectedOption = JOptionPane.showConfirmDialog(null, "Apakah Ingin Dihapus?");
         if (selectedOption == JOptionPane.YES_OPTION) {
-            econ.delete(jTextField1.getText());
+            econ.delete(idField.getText());
         }
         loadData();
         resetData();
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (jButton2.getText() == "INSERT") {
-            econ.insert(jTextField1.getText(), jTextField2.getText(),
-                    jTextField3.getText(), jTextField4.getText(), jTextField5.getText(),
-                    jDateChooser1.getDate(),
-                    new String(jComboBox1.getItemAt(jComboBox1.getSelectedIndex()).
-                            substring(0, jComboBox1.getItemAt(jComboBox1.getSelectedIndex()).indexOf("-"))),
-                    jTextField7.getText(),
-                    jTextField8.getText(),
-                    new String(jComboBox2.getItemAt(jComboBox2.getSelectedIndex()).
-                            substring(0, jComboBox2.getItemAt(jComboBox2.getSelectedIndex()).indexOf("-"))),
-                    new String(jComboBox3.getItemAt(jComboBox3.getSelectedIndex()).
-                            substring(0, jComboBox3.getItemAt(jComboBox3.getSelectedIndex()).indexOf("-"))));
+    private void insertupdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertupdateButtonActionPerformed
+        if (insertupdateButton.getText() == "INSERT") {
+            econ.insert(idField.getText(), firstnameField.getText(),
+                    lastnameField.getText(), emailField.getText(), phonenumberField.getText(),
+                    hiredateChooser.getDate(),
+                    new String(jobList.getItemAt(jobList.getSelectedIndex()).
+                            substring(0, jobList.getItemAt(jobList.getSelectedIndex()).indexOf("-"))),
+                    salaryField.getText(),
+                    commissionField.getText(),
+                    new String(managerField.getItemAt(managerField.getSelectedIndex()).
+                            substring(0, managerField.getItemAt(managerField.getSelectedIndex()).indexOf("-"))),
+                    new String(departmentField.getItemAt(departmentField.getSelectedIndex()).
+                            substring(0, departmentField.getItemAt(departmentField.getSelectedIndex()).indexOf("-"))));
             JOptionPane.showMessageDialog(null, "Insert Berhasil!");
 
         } else {
-            econ.update(jTextField1.getText(), jTextField2.getText(),
-                    jTextField3.getText(), jTextField4.getText(), jTextField5.getText(),
-                    jDateChooser1.getDate(),
-                    new String(jComboBox1.getItemAt(jComboBox1.getSelectedIndex()).
-                            substring(0, jComboBox1.getItemAt(jComboBox1.getSelectedIndex()).indexOf("-"))),
-                    jTextField7.getText(),
-                    jTextField8.getText(),
-                    new String(jComboBox2.getItemAt(jComboBox2.getSelectedIndex()).
-                            substring(0, jComboBox2.getItemAt(jComboBox2.getSelectedIndex()).indexOf("-"))),
-                    new String(jComboBox3.getItemAt(jComboBox3.getSelectedIndex()).
-                            substring(0, jComboBox3.getItemAt(jComboBox3.getSelectedIndex()).indexOf("-"))));
+            econ.update(idField.getText(), firstnameField.getText(),
+                    lastnameField.getText(), emailField.getText(), phonenumberField.getText(),
+                    hiredateChooser.getDate(),
+                    new String(jobList.getItemAt(jobList.getSelectedIndex()).
+                            substring(0, jobList.getItemAt(jobList.getSelectedIndex()).indexOf("-"))),
+                    salaryField.getText(),
+                    commissionField.getText(),
+                    new String(managerField.getItemAt(managerField.getSelectedIndex()).
+                            substring(0, managerField.getItemAt(managerField.getSelectedIndex()).indexOf("-"))),
+                    new String(departmentField.getItemAt(departmentField.getSelectedIndex()).
+                            substring(0, departmentField.getItemAt(departmentField.getSelectedIndex()).indexOf("-"))));
             JOptionPane.showMessageDialog(null, "Update Berhasil!");
         }
-        
-            loadData();
-            resetData();
-    }//GEN-LAST:event_jButton2ActionPerformed
+
+        loadData();
+        resetData();
+    }//GEN-LAST:event_insertupdateButtonActionPerformed
 
     private void loadCombo() {
         for (Job job : new JobController(connections.getConnection()).getData()) {
-            jComboBox1.addItem(job.getJobId() + "-" + job.getJobTitle());
+            jobList.addItem(job.getJobId() + "-" + job.getJobTitle());
         }
-        for (Employee emp : new EmployeeController(connections.getConnection()).getDataSearch("")) {
-            jComboBox2.addItem(emp.getId() + "-" + emp.getLast_name());
+        for (Employee emp : new EmployeeController(connections.getConnection()).getDataAll()) {
+            managerField.addItem(emp.getId() + "-" + emp.getLast_name());
         }
         for (Department dpt : new DepartmentController(connections.getConnection()).getDepartmentList()) {
-            jComboBox3.addItem(dpt.getDepartmentId() + "-" + dpt.getDepartmentName());
+            departmentField.addItem(dpt.getDepartmentId() + "-" + dpt.getDepartmentName());
         }
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField commissionField;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JComboBox<String> departmentField;
+    private javax.swing.JTextField emailField;
     private javax.swing.JTable empTable;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JTextField firstnameField;
+    private com.toedter.calendar.JDateChooser hiredateChooser;
+    private javax.swing.JTextField idField;
+    private javax.swing.JButton insertupdateButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -552,13 +509,12 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JComboBox<String> jobList;
+    private javax.swing.JTextField lastnameField;
+    private javax.swing.JComboBox<String> managerField;
+    private javax.swing.JTextField phonenumberField;
+    private javax.swing.JTextField salaryField;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JTextField searchField;
     // End of variables declaration//GEN-END:variables
 }
