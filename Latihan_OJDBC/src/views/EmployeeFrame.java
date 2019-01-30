@@ -41,26 +41,32 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
     }
 
     public void loadData() {
-        String header[] = {"Employee ID", "First Name",
+        String header[] = {"Nomor", "Employee ID", "First Name",
             "Last Name", "Email", "Phone Number", "Hire Date", "Job", "Salary",
             "Commission", "Manager", "Department"};
         List<Employee> employees = econ.getDataAll();
+        int g = 1;
         Object[][] datas = new Object[employees.size()][header.length];
         for (int i = 0; i < employees.size(); i++) {
-            List<Job> job = jcon.getById(employees.get(i).getJob());
-            Employee mgr = econ.getById(Integer.toString(employees.get(i).getManager()));
-            List<Department> dpt = dcon.getById(Integer.toString(employees.get(i).getDepartment()));
-            datas[i][0] = employees.get(i).getId();
-            datas[i][1] = employees.get(i).getFirst_name();
-            datas[i][2] = employees.get(i).getLast_name();
-            datas[i][3] = employees.get(i).getEmail();
-            datas[i][4] = employees.get(i).getPhone();
-            datas[i][5] = employees.get(i).getHire();
-            datas[i][6] = job.get(0).getJobTitle();;
-            datas[i][7] = employees.get(i).getSalary();
-            datas[i][8] = employees.get(i).getCommission();
-            datas[i][9] = mgr.getLast_name();
-            datas[i][10] = dpt.get(0).getDepartmentName();
+            Job job = jcon.getById(employees.get(i).getJob());
+            Employee manager = econ.getById(Integer.toString(employees.get(i).getId()));
+            datas[i][0] = g++;
+            datas[i][1] = employees.get(i).getId();
+            datas[i][2] = employees.get(i).getFirst_name();
+            datas[i][3] = employees.get(i).getLast_name();
+            datas[i][4] = employees.get(i).getEmail();
+            datas[i][5] = employees.get(i).getPhone();
+            datas[i][6] = employees.get(i).getHire();
+            datas[i][7] = job.getJobTitle();
+            datas[i][8] = employees.get(i).getSalary();
+            datas[i][9] = employees.get(i).getCommission();
+            datas[i][10] = manager.getFirst_name() + " " + manager.getLast_name();
+            if (employees.get(i).getDepartment() == 0) {
+            } else {
+                Department department = dcon.getById(Integer.toString(employees.get(i).getDepartment()));
+                datas[i][11] = department.getDepartmentName();
+            }
+
         }
         model = new DefaultTableModel(datas, header);
         empTable.setModel(model);
@@ -82,30 +88,30 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
         lastnameField.setText(String.valueOf(model.getValueAt(i, 3)));
         emailField.setText(String.valueOf(model.getValueAt(i, 4)));
         phonenumberField.setText(String.valueOf(model.getValueAt(i, 5)));
-
-        for (int j = 0; j < job.size(); j++) {
-            if (job.get(j).getJobTitle().equals(model.getValueAt(i, 7))) {
-                jobList.setSelectedIndex(j);
-            }
-        }
         hiredateChooser.setDate(d);
         salaryField.setText(String.valueOf(model.getValueAt(i, 8)));
         commissionField.setText(String.valueOf(model.getValueAt(i, 9)));
-        for (int k = 0; k < mgr.size(); k++) {
-            if (mgr.get(k).getLast_name().equals(model.getValueAt(i, 10))) {
-                managerField.setSelectedIndex(k);
+        for (int j = 0; j < mgr.size(); j++) {
+            String a = mgr.get(j).getFirst_name() + " " + mgr.get(j).getLast_name();
+            if (j < job.size()) {
+                if (job.get(j).getJobTitle().equals(model.getValueAt(i, 7))) {
+                    jobList.setSelectedIndex(j);
+                }
             }
-
-        }
-
-        for (int l = 0; l < dpt.size(); l++) {
-            if (dpt.get(l).getDepartmentName().equals(model.getValueAt(i, 11))) {
-                departmentField.setSelectedIndex(l);
+            if (j < dpt.size()) {
+                if (dpt.get(j).getDepartmentName().equals(model.getValueAt(i, 11))) {
+                    departmentField.setSelectedIndex(j);
+                }
             }
+            if (j < mgr.size()) {
+                if (a.equals(model.getValueAt(i, 10))) {
+                    managerField.setSelectedIndex(j);
+                }
 
+                insertupdateButton.setText("UPDATE");
+
+            }
         }
-        insertupdateButton.setText("UPDATE");
-
     }
 
     public void resetData() {
@@ -266,19 +272,24 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel1))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel1))
+                        .addGap(15, 15, 15)
+                        .addComponent(insertupdateButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(deleteButton))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(commissionField, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -288,22 +299,11 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
                             .addComponent(lastnameField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(firstnameField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(managerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(departmentField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
-                        .addComponent(jobList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
-                        .addComponent(hiredateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(insertupdateButton)
-                        .addGap(45, 45, 45)
-                        .addComponent(deleteButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(departmentField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hiredateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jobList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {commissionField, emailField, firstnameField, idField, lastnameField, phonenumberField, salaryField});
@@ -370,15 +370,15 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(searchButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 810, Short.MAX_VALUE)))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -405,20 +405,17 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
         List<Employee> employees = econ.search(searchField.getText());
         Object[][] datas = new Object[employees.size()][header.length];
         for (int i = 0; i < employees.size(); i++) {
-            List<Job> job = jcon.getById(employees.get(i).getJob());
-            Employee mgr = econ.getById(Integer.toString(employees.get(i).getManager()));
-            List<Department> dpt = dcon.getById(Integer.toString(employees.get(i).getDepartment()));
             datas[i][0] = employees.get(i).getId();
             datas[i][1] = employees.get(i).getFirst_name();
             datas[i][2] = employees.get(i).getLast_name();
             datas[i][3] = employees.get(i).getEmail();
             datas[i][4] = employees.get(i).getPhone();
             datas[i][5] = employees.get(i).getHire();
-            datas[i][6] = job.get(i).getJobTitle();;
+            datas[i][6] = employees.get(i).getJob();
             datas[i][7] = employees.get(i).getSalary();
             datas[i][8] = employees.get(i).getCommission();
-            datas[i][9] = mgr.getLast_name();
-            datas[i][10] = dpt.get(i).getDepartmentName();
+            datas[i][9] = employees.get(i).getManager();
+            datas[i][10] = employees.get(i).getDepartment();
         }
         model = new DefaultTableModel(datas, header);
         empTable.setModel(model);
@@ -436,36 +433,35 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
         }
         loadData();
         resetData();
-
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void insertupdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertupdateButtonActionPerformed
         if (insertupdateButton.getText() == "INSERT") {
             econ.insert(idField.getText(), firstnameField.getText(),
-                    lastnameField.getText(), emailField.getText(), phonenumberField.getText(),
-                    hiredateChooser.getDate(),
-                    new String(jobList.getItemAt(jobList.getSelectedIndex()).
-                            substring(0, jobList.getItemAt(jobList.getSelectedIndex()).indexOf("-"))),
-                    salaryField.getText(),
-                    commissionField.getText(),
-                    new String(managerField.getItemAt(managerField.getSelectedIndex()).
-                            substring(0, managerField.getItemAt(managerField.getSelectedIndex()).indexOf("-"))),
-                    new String(departmentField.getItemAt(departmentField.getSelectedIndex()).
-                            substring(0, departmentField.getItemAt(departmentField.getSelectedIndex()).indexOf("-"))));
+                lastnameField.getText(), emailField.getText(), phonenumberField.getText(),
+                hiredateChooser.getDate(),
+                new String(jobList.getItemAt(jobList.getSelectedIndex()).
+                    substring(0, jobList.getItemAt(jobList.getSelectedIndex()).indexOf("-"))),
+                salaryField.getText(),
+                commissionField.getText(),
+                new String(managerField.getItemAt(managerField.getSelectedIndex()).
+                    substring(0, managerField.getItemAt(managerField.getSelectedIndex()).indexOf("-"))),
+                new String(departmentField.getItemAt(departmentField.getSelectedIndex()).
+                    substring(0, departmentField.getItemAt(departmentField.getSelectedIndex()).indexOf("-"))));
             JOptionPane.showMessageDialog(null, "Insert Berhasil!");
 
         } else {
             econ.update(idField.getText(), firstnameField.getText(),
-                    lastnameField.getText(), emailField.getText(), phonenumberField.getText(),
-                    hiredateChooser.getDate(),
-                    new String(jobList.getItemAt(jobList.getSelectedIndex()).
-                            substring(0, jobList.getItemAt(jobList.getSelectedIndex()).indexOf("-"))),
-                    salaryField.getText(),
-                    commissionField.getText(),
-                    new String(managerField.getItemAt(managerField.getSelectedIndex()).
-                            substring(0, managerField.getItemAt(managerField.getSelectedIndex()).indexOf("-"))),
-                    new String(departmentField.getItemAt(departmentField.getSelectedIndex()).
-                            substring(0, departmentField.getItemAt(departmentField.getSelectedIndex()).indexOf("-"))));
+                lastnameField.getText(), emailField.getText(), phonenumberField.getText(),
+                hiredateChooser.getDate(),
+                new String(jobList.getItemAt(jobList.getSelectedIndex()).
+                    substring(0, jobList.getItemAt(jobList.getSelectedIndex()).indexOf("-"))),
+                salaryField.getText(),
+                commissionField.getText(),
+                new String(managerField.getItemAt(managerField.getSelectedIndex()).
+                    substring(0, managerField.getItemAt(managerField.getSelectedIndex()).indexOf("-"))),
+                new String(departmentField.getItemAt(departmentField.getSelectedIndex()).
+                    substring(0, departmentField.getItemAt(departmentField.getSelectedIndex()).indexOf("-"))));
             JOptionPane.showMessageDialog(null, "Update Berhasil!");
         }
 
@@ -478,7 +474,7 @@ public class EmployeeFrame extends javax.swing.JInternalFrame {
             jobList.addItem(job.getJobId() + "-" + job.getJobTitle());
         }
         for (Employee emp : new EmployeeController(connections.getConnection()).getDataAll()) {
-            managerField.addItem(emp.getId() + "-" + emp.getLast_name());
+            managerField.addItem(emp.getId() + "-" + emp.getFirst_name() + " " + emp.getLast_name());
         }
         for (Department dpt : new DepartmentController(connections.getConnection()).getDepartmentList()) {
             departmentField.addItem(dpt.getDepartmentId() + "-" + dpt.getDepartmentName());

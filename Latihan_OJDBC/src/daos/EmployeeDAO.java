@@ -23,17 +23,19 @@ public class EmployeeDAO {
 
     private Connection connection;
 
-     /**
+    /**
      * Fungsi untuk melakukan koneksi ke database
+     *
      * @param objek connection dari class Connection
      */
     public EmployeeDAO(Connection connection) {
         this.connection = connection;
     }
-	
-     /**
+
+    /**
      * Method MaxEmpId berfungsi untuk mengembalikan nilai id employee yang
      * paling besar dalam table employee
+     *
      * @return menampilkan nilai max
      */
     public int MaxEmpId() {
@@ -50,12 +52,25 @@ public class EmployeeDAO {
         }
         return maxId;
     }
-	
-     /**
-     * Fungsi digunakan untuk melakukan pencarian data berdasarkan keyword yang di inputkan
-     * Jika isGetById bernilai false, maka sistem akan menampilkan 
-     * semua data yang berkaitan dengan keyword
-     * Jika isGetById bernilai true, maka sistem akan menampilkan data berdasarkan employee_id nya
+
+//    public List<Employee> getManager(){
+//        List<Employee> employees = new ArrayList<Employee>();
+//        String query = "SELECT DISTINCT b.manager_id , a.first_name FROM employees a JOIN employees b ON a.employee_id = b.manager_id";
+//        try {
+//            PreparedStatement preparedStatement = connection.prepareStatement(query);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            while(resultSet.next()){
+//                employees.add()
+//            }
+//        } catch (Exception e) {
+//        }
+//    }
+    /**
+     * Fungsi digunakan untuk melakukan pencarian data berdasarkan keyword yang
+     * di inputkan Jika isGetById bernilai false, maka sistem akan menampilkan
+     * semua data yang berkaitan dengan keyword Jika isGetById bernilai true,
+     * maka sistem akan menampilkan data berdasarkan employee_id nya
+     *
      * @param keyword bertipe Object
      * @param isGetById bertipe data boolean
      * @return menampilkan hasil pencarian
@@ -64,7 +79,7 @@ public class EmployeeDAO {
         String query;
         List<Employee> employees = new ArrayList<Employee>();
         if (isGetById) {
-            query = "SELECT * FROM EMPLOYEES WHERE EMPLOYEE_ID = " + keyword +"ORDER BY EMPLOYEE_ID";
+            query = "SELECT * FROM EMPLOYEES WHERE EMPLOYEE_ID = " + keyword + "ORDER BY EMPLOYEE_ID";
         } else {
             query = "SELECT * FROM EMPLOYEES "
                     + "WHERE EMPLOYEE_ID LIKE '%" + keyword + "%' "
@@ -86,12 +101,12 @@ public class EmployeeDAO {
 
         return employees;
     }
-    
 
-     /**
-     * Fungsi digunakan untuk melakukan insert dan update pada database
-     * Jika nilai isInsert bernilai false, maka sistem akan melakukan update data
+    /**
+     * Fungsi digunakan untuk melakukan insert dan update pada database Jika
+     * nilai isInsert bernilai false, maka sistem akan melakukan update data
      * Jika nilai isInsert bernilai true, maka sistem akan melakukan insert data
+     *
      * @param objek e pada class Employee
      * @param isInsert bertipe data boolean
      * @return berhasil melakukan update atau insert
@@ -100,12 +115,13 @@ public class EmployeeDAO {
         String query;
         boolean result = false;
         if (isInsert) {
-            query = "INSERT INTO EMPLOYEES (FIRST_NAME, EMPLOYEE_ID, LAST_NAME, EMAIL, PHONE_NUMBER,"
-                    + "HIRE_DATE, JOB_ID, SALARY, COMMISSION_PCT, MANAGER_ID, DEPARTMENT_ID) "
+            query = "INSERT INTO EMPLOYEES (FIRST_NAME, LAST_NAME, EMAIL, PHONE_NUMBER,"
+                    + "HIRE_DATE, JOB_ID, SALARY, COMMISSION_PCT, MANAGER_ID, DEPARTMENT_ID, EMPLOYEE_ID) "
                     + "VALUES(? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)";
 
         } else {
-            query = "UPDATE EMPLOYEES SET FIRST_NAME = ? WHERE EMPLOYEE_ID = ?";
+            query = "UPDATE EMPLOYEES SET FIRST_NAME = ? , LAST_NAME = ? , EMAIL = ? , "
+                    + "PHONE_NUMBER = ? , HIRE_DATE = ? , JOB_ID = ? , SALARY = ? , COMMISSION_PCT = ? , MANAGER_ID = ? , DEPARTMENT_ID = ? WHERE EMPLOYEE_ID = ?";
         }
         try {
             Date d = e.getHire();
@@ -113,22 +129,17 @@ public class EmployeeDAO {
             String s = sdf.format(d);
             Timestamp t = Timestamp.valueOf(s);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            if (isInsert) {
-                preparedStatement.setString(1, e.getFirst_name());
-                preparedStatement.setInt(2, e.getId());
-                preparedStatement.setString(3, e.getLast_name());
-                preparedStatement.setString(4, e.getEmail());
-                preparedStatement.setString(5, e.getPhone());
-                preparedStatement.setTimestamp(6, t);
-                preparedStatement.setString(7, e.getJob());
-                preparedStatement.setInt(8, e.getSalary());
-                preparedStatement.setInt(9, e.getCommission());
-                preparedStatement.setInt(10, e.getManager());
-                preparedStatement.setInt(11, e.getDepartment());
-            } else {
-                preparedStatement.setString(1, e.getFirst_name());
-                preparedStatement.setInt(2, e.getId());
-            }
+            preparedStatement.setString(1, e.getFirst_name());
+            preparedStatement.setString(2, e.getLast_name());
+            preparedStatement.setString(3, e.getEmail());
+            preparedStatement.setString(4, e.getPhone());
+            preparedStatement.setTimestamp(5, t);
+            preparedStatement.setString(6, e.getJob());
+            preparedStatement.setInt(7, e.getSalary());
+            preparedStatement.setInt(8, e.getCommission());
+            preparedStatement.setInt(9, e.getManager());
+            preparedStatement.setInt(10, e.getDepartment());
+            preparedStatement.setInt(11, e.getId());
             preparedStatement.executeQuery();
             result = true;
         } catch (Exception e1) {
@@ -139,6 +150,7 @@ public class EmployeeDAO {
 
     /**
      * Fungsii untuk menghapus employee berdasarkan id nya
+     *
      * @param id bertipe data integer
      * @return berhasil melakukan delete
      */
